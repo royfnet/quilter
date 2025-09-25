@@ -72,22 +72,22 @@ int lutcmp(			// Compare two counted strings, return as per strcmp
 	int n2)
 //      Like strcmp(), but uses counted strings, and makes "]" less than digits
 {
-    int ret;
+	int ret;
 
-    for(;;)
-    {
-        if( n1 == 0) return( -n2);
-        if( n2 == 0) return( n1);
-        ret = *s1 - *s2;
-        if( ret != 0)
-    	{ /* Strings are not equal - make ']' come BEFORE anything else */
+	for(;;)
+	{
+		if( n1 == 0) return( -n2);
+		if( n2 == 0) return( n1);
+		ret = *s1 - *s2;
+		if( ret != 0)
+		{ /* Strings are not equal - make ']' come BEFORE anything else */
 //        	if( *s1 == ']') return( -1);
 //      	if( *s2 == ']') return( +1);
 			return( ret);
 		}
-        n1--; n2--;
-        s1++; s2++;
-    }
+		n1--; n2--;
+		s1++; s2++;
+	}
 }
 
 int lutncmp(
@@ -96,23 +96,23 @@ int lutncmp(
 		const char* s2,
 		int n2)
 //      Like strncmp, but limits length of s2 to n2, and gives ']' less than digits
-    {
-    int ret;
+	{
+	int ret;
 
-    for(;;)
-        {
-        if( n == 0) return( 0); /* If S1 runs out first, return equal-to */
-        if( n2 == 0) return( n);
-        ret = *s1++ - *s2++;
-        if( ret != 0)
-        	{ /* Strings are not equal - make ']' come BEFORE anything else */
+	for(;;)
+		{
+		if( n == 0) return( 0); /* If S1 runs out first, return equal-to */
+		if( n2 == 0) return( n);
+		ret = *s1++ - *s2++;
+		if( ret != 0)
+			{ /* Strings are not equal - make ']' come BEFORE anything else */
 //        	if( *s1 == ']') return( -1);
 //        	if( *s2 == ']') return( +1);
 			return( ret);
 			}
-        n--; n2--;
-        }
-    }
+		n--; n2--;
+		}
+	}
 
 int circmp(	   	/* Compare string to circular buffer */
 		const char* s1,			/* Circular buffer */
@@ -169,7 +169,7 @@ void lutclasstest( void)	// test an object
 	if( z != NULL)
 	{ // This test makes sure empty lists are empty
 		throw "lut 1";
-    }
+	}
 	z = l.lookup( "Q", 1);	// Make sure lookups on empty are okay
 	if( z) throw "lut 1a";
 //		Test order of list

@@ -37,27 +37,27 @@ const char* ctim( time_t tv)
 	char* retval = sTimeBuffer[sTimeBufPos];
 	ctime_s(sTimeBuffer[sTimeBufPos++], 26, &tv);
 #else
-    char* retval = ctime_r( &tv, sTimeBuffer[sTimeBufPos++]);
+	char* retval = ctime_r( &tv, sTimeBuffer[sTimeBufPos++]);
 #endif
-    Test( retval);
-    retval[ strlen( retval)-1]=0;
-    sTimeBufPos &= 3;
-    return retval;
+	Test( retval);
+	retval[ strlen( retval)-1]=0;
+	sTimeBufPos &= 3;
+	return retval;
 }
 
 std::string DocumentsPath()
 {// Returns path to user's documents
 #if MACCODE
-    char path[PATH_MAX];
-    auto state = sysdir_start_search_path_enumeration(
-        SYSDIR_DIRECTORY_DOCUMENT,
-        SYSDIR_DOMAIN_MASK_USER);
-    Test( (bool) (0 != sysdir_get_next_search_path_enumeration(state, path)));
-    glob_t globbuf;
-    Test(glob(path, GLOB_TILDE, nullptr, &globbuf));
-    std::string result(globbuf.gl_pathv[0]);
-    globfree(&globbuf);
-    return result;
+	char path[PATH_MAX];
+	auto state = sysdir_start_search_path_enumeration(
+		SYSDIR_DIRECTORY_DOCUMENT,
+		SYSDIR_DOMAIN_MASK_USER);
+	Test( (bool) (0 != sysdir_get_next_search_path_enumeration(state, path)));
+	glob_t globbuf;
+	Test(glob(path, GLOB_TILDE, nullptr, &globbuf));
+	std::string result(globbuf.gl_pathv[0]);
+	globfree(&globbuf);
+	return result;
 #else
 	std::string retval(getenv("HOMEPATH"));
 	retval = retval + "\\Documents\\";
@@ -68,16 +68,16 @@ std::string DocumentsPath()
 std::string SettingsPath()
 {// Returns path to user's application support folder
 #if MACCODE
-    char path[PATH_MAX];
-    auto state = sysdir_start_search_path_enumeration(
-        SYSDIR_DIRECTORY_APPLICATION_SUPPORT,
-        SYSDIR_DOMAIN_MASK_USER);
-    Test( (bool) (0 != sysdir_get_next_search_path_enumeration(state, path)));
-    glob_t globbuf;
-    Test(glob(path, GLOB_TILDE, nullptr, &globbuf));
-    std::string result(globbuf.gl_pathv[0]);
-    globfree(&globbuf);
-    return result;
+	char path[PATH_MAX];
+	auto state = sysdir_start_search_path_enumeration(
+		SYSDIR_DIRECTORY_APPLICATION_SUPPORT,
+		SYSDIR_DOMAIN_MASK_USER);
+	Test( (bool) (0 != sysdir_get_next_search_path_enumeration(state, path)));
+	glob_t globbuf;
+	Test(glob(path, GLOB_TILDE, nullptr, &globbuf));
+	std::string result(globbuf.gl_pathv[0]);
+	globfree(&globbuf);
+	return result;
 #else
 	std::string retval(getenv("HOME"));
 	retval = retval + "\\Documents\\";
@@ -95,13 +95,13 @@ void AddActivity( AsyncHelper* newActivity)
 
 int AsyncHelper::Printf( const char* formatString, ...)
 {// A version of printf for use in asynchronous helpers the triggers the dispaly of a new command prompt
-    va_list args;
-    va_start( args, formatString );
-    int retval = vprintf( formatString, args);
-    if( retval > 0)
-        iNeedNewPrompt = true;
-    va_end( args );
-    return retval;
+	va_list args;
+	va_start( args, formatString );
+	int retval = vprintf( formatString, args);
+	if( retval > 0)
+		iNeedNewPrompt = true;
+	va_end( args );
+	return retval;
 }
 
 char* AsyncHelper::NowString()
@@ -121,10 +121,10 @@ char* AsyncHelper::NowString()
 
 std::string ActivityUniqueString()
 {
-    ++uniqueActivityCount;
-    char scrap[ 10];
-    snprintf( scrap, CountItems( scrap), "%06d", uniqueActivityCount);
-    return scrap;
+	++uniqueActivityCount;
+	char scrap[ 10];
+	snprintf( scrap, CountItems( scrap), "%06d", uniqueActivityCount);
+	return scrap;
 }
 
 /*
@@ -231,20 +231,20 @@ int SetCmd( CommandProc* cur)
 	bool quiet = false;
 	const char* boolOpts = "q";
 	bool* boolValues[] = {&quiet};
-    static const char* helps[] =
-    {
+	static const char* helps[] =
+	{
 		"Quiet, Omit list of current values",
-        "Set default value. Lists all values."
-    };
+		"Set default value. Lists all values."
+	};
 
 	int paramIndex = GetAllOpts(
-        cur->iArgc, cur->iArgv,
-        boolOpts, boolValues,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        "*", helps);
+		cur->iArgc, cur->iArgv,
+		boolOpts, boolValues,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		"*", helps);
 	
 	for( ;paramIndex+1 < cur->iArgc; paramIndex += 2)
 	{// Set in pairs
@@ -284,16 +284,16 @@ int SetCmd( CommandProc* cur)
 class AsyncReader
 {// support for AsyncGetLine
 public:
-    char* iBuffer;
-    size_t iLen;
-    FILE* iFile;
-    JeffSemaphore &iCompletionSema;
-    bool* iReady;
+	char* iBuffer;
+	size_t iLen;
+	FILE* iFile;
+	JeffSemaphore &iCompletionSema;
+	bool* iReady;
 
-    AsyncReader( JeffSemaphore &completionSema, bool *ready, char* buffer, size_t len, FILE* f)
-    :
-        iBuffer( buffer), iLen( len), iFile( f), iCompletionSema( completionSema), iReady( ready)
-    {
+	AsyncReader( JeffSemaphore &completionSema, bool *ready, char* buffer, size_t len, FILE* f)
+	:
+		iBuffer( buffer), iLen( len), iFile( f), iCompletionSema( completionSema), iReady( ready)
+	{
 		memset( iBuffer, 0, iLen);
 		static size_t sNiceStackSize = 1024*16;
 		pthread_t threadID;
@@ -310,28 +310,28 @@ public:
 		Test( pthread_create( &threadID, &pa, AsyncReader::ReadThread, this));
 		Test( pthread_attr_destroy( &pa));
 	}
-    
-    void* ReadThreadGuts()
-    {
-        iBuffer[ 0] = 0;
-        FGetLine( iBuffer, iLen, iFile);
-        *iReady = true;
-        iCompletionSema.Increment();
-        return( nullptr);
-    }
+	
+	void* ReadThreadGuts()
+	{
+		iBuffer[ 0] = 0;
+		FGetLine( iBuffer, iLen, iFile);
+		*iReady = true;
+		iCompletionSema.Increment();
+		return( nullptr);
+	}
 
-    static void* ReadThread( void* context)
-    {// Wrapper given to phread.
-        AsyncReader* sd = (AsyncReader*) context;
-        sd->ReadThreadGuts();
-        delete sd;
-        return nullptr;
-    }
+	static void* ReadThread( void* context)
+	{// Wrapper given to phread.
+		AsyncReader* sd = (AsyncReader*) context;
+		sd->ReadThreadGuts();
+		delete sd;
+		return nullptr;
+	}
 };
 
 void AsyncGetLine( char* buffer, size_t len, FILE* f, JeffSemaphore &completionSema, bool* ready)
 {
-    new AsyncReader( completionSema, ready, buffer, len, f);
+	new AsyncReader( completionSema, ready, buffer, len, f);
 }
 
 int SplitCommandLine( char* commandLine, int *argc, char** argv, int argvsize)
@@ -388,19 +388,19 @@ int SplitCommandLine( char* commandLine, int *argc, char** argv, int argvsize)
 
 int JsonCmd( CommandProc* cur)
 {
-    static const char* helps[] =
-    {
-        "Read JSON file to write out as XML."
-    };
+	static const char* helps[] =
+	{
+		"Read JSON file to write out as XML."
+	};
 
 	int paramIndex = GetAllOpts(	// No options, just the one parameter
-        cur->iArgc, cur->iArgv,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        "S", helps);
+		cur->iArgc, cur->iArgv,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		"S", helps);
 
 	char* jsonbuf = nullptr;
 	FILE *infile = fopen( cur->iArgv[ paramIndex], "r");
@@ -418,20 +418,20 @@ int RunCmd( CommandProc *cur);
 
 int ExitCmd( CommandProc* cur)
 {
-    static const char* helps[] =
-    {
-        "Terminates all activities and exits."
-    };
+	static const char* helps[] =
+	{
+		"Terminates all activities and exits."
+	};
 	int paramIndex = GetAllOpts(
-        cur->iArgc, cur->iArgv,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        "", helps);
-    if( cur->iArgc > paramIndex)
-        xraise( "Exit takes no parameters", nullptr);
+		cur->iArgc, cur->iArgv,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		"", helps);
+	if( cur->iArgc > paramIndex)
+		xraise( "Exit takes no parameters", nullptr);
 	return 2;	// Returning 2 tells command line to exit.
 }
 
@@ -443,18 +443,18 @@ int EchoCmd( CommandProc* cur)
 	};
 
 	int paramIndex = GetAllOpts(	// No options, just the one parameter
-        cur->iArgc, cur->iArgv,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        ".", helps);
+		cur->iArgc, cur->iArgv,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		".", helps);
 	for(int i = paramIndex; i < cur->iArgc; ++i)
 	{
 		printf( "Paraemter %d is \"%s\"\n", i-paramIndex+1, cur->iArgv[ i]);
 	}
-    //	If we came from the command line, we exit now by returning 2
+	//	If we came from the command line, we exit now by returning 2
 	return cur->iFromCommandLine ? 2 : 0;
 }
 
@@ -466,60 +466,60 @@ int TestCmd( CommandProc* cur)
 	};
 
 	GetAllOpts(	// No options
-        cur->iArgc, cur->iArgv,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        "", helps);
+		cur->iArgc, cur->iArgv,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		"", helps);
 
 	printf( "wchar_t size is %d\n", (int) sizeof( wchar_t));
-    for(;;)
-    {
-        char buf[ 512];
-        uint32_t wbuf[ 512];
-        ConsoleGetLine( "X to exit>", buf, 512);
-        printf( "%s\n", buf);
-        for( size_t c = 0; c < strlen( buf); ++c) printf( "0x%x ", (int)(unsigned char) buf[ c]);
-        printf( "\n");
-        decode_utf8_to_utf32( wbuf, (unsigned char*) buf);
-        for( int c = 0; wbuf[c]!=0; ++c)
-        {
-            printf( "U-%x ", (unsigned int) wbuf[c]);
-        }
-        printf( "\n");
-        if( buf[ 0] == 'X')
-            break;
-    }
+	for(;;)
+	{
+		char buf[ 512];
+		uint32_t wbuf[ 512];
+		ConsoleGetLine( "X to exit>", buf, 512);
+		printf( "%s\n", buf);
+		for( size_t c = 0; c < strlen( buf); ++c) printf( "0x%x ", (int)(unsigned char) buf[ c]);
+		printf( "\n");
+		decode_utf8_to_utf32( wbuf, (unsigned char*) buf);
+		for( int c = 0; wbuf[c]!=0; ++c)
+		{
+			printf( "U-%x ", (unsigned int) wbuf[c]);
+		}
+		printf( "\n");
+		if( buf[ 0] == 'X')
+			break;
+	}
 	//If we came from the command line, we exit now by returning 2
-    // Should do this with a lot more commands.
-    return cur->iFromCommandLine ? 2 : 0;
+	// Should do this with a lot more commands.
+	return cur->iFromCommandLine ? 2 : 0;
 }
 
 static char const *cmds[] =
 {
-    "help",
-    "exit",
-    "echo",
-    "json",
-    "set",
-    "test",
-    "run",
-    "@",
-    NULL
+	"help",
+	"exit",
+	"echo",
+	"json",
+	"set",
+	"test",
+	"run",
+	"@",
+	NULL
 };
 static int (*rtns[])( CommandProc*) =
 {
-    Help,
+	Help,
 	ExitCmd,
 	EchoCmd,
-    JsonCmd,
-    SetCmd,
-    TestCmd,
+	JsonCmd,
+	SetCmd,
+	TestCmd,
 	RunCmd,
 	RunCmd,
-    NULL
+	NULL
 };
 
 int RunCmd( CommandProc* cur)
@@ -531,13 +531,13 @@ int RunCmd( CommandProc* cur)
 	};
 
 	int paramIndex = GetAllOpts(	// No options, just the one parameter
-        cur->iArgc, cur->iArgv,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        nullptr, nullptr,
-        "S", helps);
+		cur->iArgc, cur->iArgv,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		nullptr, nullptr,
+		"S", helps);
 
 	int result = 0;			// We return the result of the last command.  If it was exit, we exit
 	const char* filename = cur->iArgv[ paramIndex];
@@ -572,17 +572,17 @@ int RunCmd( CommandProc* cur)
 
 int Help( CommandProc *cur)
 {
-    if( cur->iArgc >= 2 && strcmp( cur->iArgv[ 1], helpflag) == 0)
-    {// Help on ourself, don't recurse
+	if( cur->iArgc >= 2 && strcmp( cur->iArgv[ 1], helpflag) == 0)
+	{// Help on ourself, don't recurse
 		printf( "Version %s %s %s\n\n", versionString, __DATE__, __TIME__);
-        printf( "help - displays help page.\n");
-    }
-    else
-    {// Help on everyone else
-    	cur->iArgv++;
-    	cur->iArgc--;
-        DoHelp( "", cur, cmds, rtns);   // Skip over the help command
-    }
+		printf( "help - displays help page.\n");
+	}
+	else
+	{// Help on everyone else
+		cur->iArgv++;
+		cur->iArgc--;
+		DoHelp( "", cur, cmds, rtns);   // Skip over the help command
+	}
 	return cur->iFromCommandLine ? 2 : 0;
 }
 
@@ -592,130 +592,130 @@ AsyncHelper::~AsyncHelper()
 
 void AsyncHelper::DisplayPrompt()
 {// This is a hack until I make a base class for command lines
-    printf( "Quilter>"); fflush( stdout);
+	printf( "Quilter>"); fflush( stdout);
 }
 
 class AsyncEditableCommandLine : public AsyncHelper, EditableCommandLine
 {
 public:
-    int readCh = 'R'-64;         // Character reseult
-    ScopedGetch* gch = nullptr;
-    JeffSemaphore gchLock;      // Using it like a mutex
-    bool exiting = false;
-    
-    AsyncEditableCommandLine()
-    :
+	int readCh = 'R'-64;         // Character reseult
+	ScopedGetch* gch = nullptr;
+	JeffSemaphore gchLock;      // Using it like a mutex
+	bool exiting = false;
+	
+	AsyncEditableCommandLine()
+	:
 		EditableCommandLine( "Quilter>")
 	{
 	}
-    
-    void* ReadThreadGuts()
-    {
-        while( !exiting)
-        {
-            gchLock.Decrement();
-            while( !exiting)
-            {
-                readCh = gch->ReadCmd();
-                if( readCh != 0)
+	
+	void* ReadThreadGuts()
+	{
+		while( !exiting)
+		{
+			gchLock.Decrement();
+			while( !exiting)
+			{
+				readCh = gch->ReadCmd();
+				if( readCh != 0)
 					break;
-            }
-            iReadyToExecute = true;
-            iCompletionSema.Increment();
-        }
-        return( nullptr);
-    }
+			}
+			iReadyToExecute = true;
+			iCompletionSema.Increment();
+		}
+		return( nullptr);
+	}
 
-    static void* ReadThread( void* context)
-    {// Wrapper given to phread.
-        AsyncEditableCommandLine* sd = (AsyncEditableCommandLine*) context;
-        sd->ReadThreadGuts();
-        return nullptr;
-    }
+	static void* ReadThread( void* context)
+	{// Wrapper given to phread.
+		AsyncEditableCommandLine* sd = (AsyncEditableCommandLine*) context;
+		sd->ReadThreadGuts();
+		return nullptr;
+	}
 
-    void Startup() override
-    {
-        exiting = false;
-        gch = new ScopedGetch();
-        gchLock.Increment();
-        static size_t sNiceStackSize = 1024*16;
-        pthread_t threadID;
-        pthread_attr_t pa;
-        Test( pthread_attr_init( &pa));
-        size_t ss;    // Default stack size of 512K is too small for fwrite()
-        Test( pthread_attr_getstacksize( &pa, &ss));
-        if( ss < sNiceStackSize)
-        {
-            ss = sNiceStackSize;
-            Test( pthread_attr_setstacksize( &pa, ss));
-        }
-        Test( pthread_attr_setdetachstate( &pa, PTHREAD_CREATE_DETACHED));
-        Test( pthread_create( &threadID, &pa, AsyncEditableCommandLine::ReadThread, this));
-        Test( pthread_attr_destroy( &pa));
-    }
+	void Startup() override
+	{
+		exiting = false;
+		gch = new ScopedGetch();
+		gchLock.Increment();
+		static size_t sNiceStackSize = 1024*16;
+		pthread_t threadID;
+		pthread_attr_t pa;
+		Test( pthread_attr_init( &pa));
+		size_t ss;    // Default stack size of 512K is too small for fwrite()
+		Test( pthread_attr_getstacksize( &pa, &ss));
+		if( ss < sNiceStackSize)
+		{
+			ss = sNiceStackSize;
+			Test( pthread_attr_setstacksize( &pa, ss));
+		}
+		Test( pthread_attr_setdetachstate( &pa, PTHREAD_CREATE_DETACHED));
+		Test( pthread_create( &threadID, &pa, AsyncEditableCommandLine::ReadThread, this));
+		Test( pthread_attr_destroy( &pa));
+	}
 
-    virtual const char* Description() override
-    {
-        return "Editable command interpreter";
-    }
+	virtual const char* Description() override
+	{
+		return "Editable command interpreter";
+	}
 
-    virtual void DisplayPrompt() override
-    {
+	virtual void DisplayPrompt() override
+	{
 		EditableCommandLine::DisplayPrompt();
-    }
-    
-    void Execute() override
-    {// Process most recent charactere if there is one, and queue up reading the next
+	}
+	
+	void Execute() override
+	{// Process most recent charactere if there is one, and queue up reading the next
 		char* cmdLine1 = ProcessOneCharacter( readCh);
 		if( cmdLine1)
 		{
 			delete gch;			// Run command line in normal mode
 			gch = nullptr;
-		    try
-            {
-                char* av[64];
-                int ac = 0;
-                if( *cmdLine1)
-                {// Something to do
-                    SplitCommandLine( cmdLine1, &ac, av, CountItems( av));
-                    if( ac != 0)
-                    {
-                        CommandProc cur( ac, av);
-                        result = Dispatch( &cur, cmds, rtns);
-                    }
-                }
-            }
-            catch( std::exception& err)
-            {
-                DisplayException( err);
-            }
-            catch( ...)
-            {
-                printf( "Don't know why it failed\n");
-            }
-            *cmdLine1 = 0;
-            if( result == 2)
-            {// Exiting, mark it so
+			try
+			{
+				char* av[64];
+				int ac = 0;
+				if( *cmdLine1)
+				{// Something to do
+					SplitCommandLine( cmdLine1, &ac, av, CountItems( av));
+					if( ac != 0)
+					{
+						CommandProc cur( ac, av);
+						result = Dispatch( &cur, cmds, rtns);
+					}
+				}
+			}
+			catch( std::exception& err)
+			{
+				DisplayException( err);
+			}
+			catch( ...)
+			{
+				printf( "Don't know why it failed\n");
+			}
+			*cmdLine1 = 0;
+			if( result == 2)
+			{// Exiting, mark it so
 				exiting = true;
-           }
-            else
-            {
-            iNeedNewPrompt = true;
+		   }
+			else
+			{
+			iNeedNewPrompt = true;
 			gch = new ScopedGetch();
 		}
-        }
-        gchLock.Increment();        // Unlock read thread
-    }
-    
-    void Shutdown() override
-    {// Restartable shutdown
-        exiting = true;
+		}
+		gchLock.Increment();        // Unlock read thread
+	}
+	
+	void Shutdown() override
+	{// Restartable shutdown
+		exiting = true;
 		gchLock.Increment();
-    }
-    
-    ~AsyncEditableCommandLine()
-    {// non-restartable shutdown
-    }
+	}
+	
+	~AsyncEditableCommandLine()
+	{// non-restartable shutdown
+	}
 };
 
 class AsyncCommandLine : public AsyncHelper
@@ -786,9 +786,9 @@ int main( int argc, char **argv)
 		and I/O pipes don't count.
  */
 	AsyncHelper* cmdLine = nullptr;
-    if( AmIBeingDebugged() || !isatty(STDIN_FILENO))
+	if( AmIBeingDebugged() || !isatty(STDIN_FILENO))
 		cmdLine =  new AsyncCommandLine() ;
-    else
+	else
 		cmdLine = new AsyncEditableCommandLine();
 	cmdLine->Startup();
 /*
@@ -842,11 +842,11 @@ int main( int argc, char **argv)
 	// open up and read from stdin
 	while( cmdLine->result != 2)
 	{
-        if( needPrompt)
-        {
-            cmdLine->DisplayPrompt();
-            needPrompt = false;
-        }
+		if( needPrompt)
+		{
+			cmdLine->DisplayPrompt();
+			needPrompt = false;
+		}
 		AsyncHelper::iCompletionSema.Decrement();
 		for( size_t i = 0; i < activities.size(); ++i)
 		{// Process all the handlers, including the first one that takes commands from the command line
@@ -857,7 +857,7 @@ int main( int argc, char **argv)
 				{
 					activities[ i]->Execute();
 					needPrompt = activities[i]->iNeedNewPrompt;
-                    ++activities[i]->iExecuteCounter;
+					++activities[i]->iExecuteCounter;
 				}
 				catch( std::exception& err)
 				{
@@ -877,7 +877,7 @@ int main( int argc, char **argv)
 					--i;
 					needPrompt = true;
 				}
-                activities[i]->iNeedNewPrompt = false;
+				activities[i]->iNeedNewPrompt = false;
 			}
 		}
 	}

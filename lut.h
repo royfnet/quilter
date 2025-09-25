@@ -56,9 +56,9 @@ public:
 		int blen=128);			// Size of buffer
 
 protected:
-    int members;		// Number of things in the table
-    abstractlut()			// Construct with zero members
-    :
+	int members;		// Number of things in the table
+	abstractlut()			// Construct with zero members
+	:
 		members( 0)
 	{}
 };
@@ -116,8 +116,8 @@ public:
 		int index);				// Index, must be between count() and count()+place
 
 private:
-    THING **table;
-    int allocated;
+	THING **table;
+	int allocated;
 /*
 		Normally locate is private, but location information is useful to
 		menu items and other places where the list is visible to the user. They
@@ -167,39 +167,39 @@ template< class THING> int lut<THING>::locate(	// Locate position of entry by sy
 	int length,					// Symbol length
 	int *place)					// Returned index
 /*
-        Locates the index in the table where a symbol is, or should go.
-        Returns 0 if exact match, non-0 otherwise.
+		Locates the index in the table where a symbol is, or should go.
+		Returns 0 if exact match, non-0 otherwise.
 */
 {
-    int top = 0;
+	int top = 0;
 	int bottom = members;   // Bounds of binary search
-    int i = 0;
+	int i = 0;
 	int s = 1;	// Loop index and compare result
-    int n = length & 0xFF;		// Length if input symbol
-    const char* isymb;			// Symbol name of item under test
-    int ilen;					// Length of item symbol
+	int n = length & 0xFF;		// Length if input symbol
+	const char* isymb;			// Symbol name of item under test
+	int ilen;					// Length of item symbol
 
-    for(;;)
-    { /* For each iteration of binary search */
-        if( bottom == top) break;       // Not found, or list empty
-        i = ((bottom-top)>>1) + top;
-        isymb = table[ i]->sname( &ilen);
-        s = lutcmp( symbol, n, isymb, ilen);
-        if( s == 0) break;              // Found (s == 0)
-        else if( s < 0)
-        { // Target is in bottom half
-            if( top == i) break;        // Not found, insert at i
-            bottom = i;         		// Current is new lower bound
-        }
-        else
-        { // Target is in top half
-            if( top == i) {i++; break;} // Not found, insert after i
-            top = i;    				// Current is new upper bound
+	for(;;)
+	{ /* For each iteration of binary search */
+		if( bottom == top) break;       // Not found, or list empty
+		i = ((bottom-top)>>1) + top;
+		isymb = table[ i]->sname( &ilen);
+		s = lutcmp( symbol, n, isymb, ilen);
+		if( s == 0) break;              // Found (s == 0)
+		else if( s < 0)
+		{ // Target is in bottom half
+			if( top == i) break;        // Not found, insert at i
+			bottom = i;         		// Current is new lower bound
 		}
-    }
-    if( place)
+		else
+		{ // Target is in top half
+			if( top == i) {i++; break;} // Not found, insert after i
+			top = i;    				// Current is new upper bound
+		}
+	}
+	if( place)
 		*place = i;
-    return( s);
+	return( s);
 }
 
 template < class THING> int lut<THING>::count(		// Returns number of symbol name matches
@@ -236,8 +236,8 @@ template < class THING> const char* lut<THING>::displayptr(	// Wraps a call to t
 template < class THING> int lut<THING>::add( // Define a symbol
 	THING *value)		// user's symbol and value */
 /*
-        Returns 1 if successful, and 0 (FALSE) if this would be a duplicate
-        symbol.
+		Returns 1 if successful, and 0 (FALSE) if this would be a duplicate
+		symbol.
 */
 {
 	int length;									// Length of symbol
@@ -292,9 +292,9 @@ template< class THING> int lut<THING>::remove( // Returns result code, 1 is succ
 	{// Once all members of the table are deleted, delete the table itself.
 	 // This allows us to have static global tables that don't leave memory behind
 	 // when the program exits, so int as you are sure you remove everything from the table
-	 	allocated = 0;
-	 	delete[] table;
-	 	table = NULL;
+		allocated = 0;
+		delete[] table;
+		table = NULL;
 	}
 	return( 1);
 }
@@ -309,8 +309,8 @@ template< class THING> THING *lut<THING>::next(
 	
 	cname = current->sname( &clen);		// Find name of where we are now
 	s = locate( cname, clen, &i);		// Find out where we are    
-    if( s == 0) i++;					// Exact match is this one, get the next one
-    if( i >= members) return( NULL);	// We're off the end
+	if( s == 0) i++;					// Exact match is this one, get the next one
+	if( i >= members) return( NULL);	// We're off the end
 	else return( table[ i]);    		// Or we're not
 }
 
@@ -325,22 +325,22 @@ template< class THING> THING *lut<THING>::lookup_a( // lookup a symbol, allow am
 		If none match, the return value is NULL, and count is returned as the
 		length to which you must shorten the symbol to get something to match.
 */
-    int i;
+	int i;
 	int place;
 	
-    if( length == 0)
-    { /* User wants entire list, Handle this as a fast special case */
-        countParam = members;
-        return( table ? table[ 0] : 0);
-    }
-    i = locate( symbol, length, &place);
-    if( i == 0)
-    { /* Exact match special case, force count to one even if ambiguous */
-    	countParam = 1;
-    	return( table[ place]);
-    }
+	if( length == 0)
+	{ /* User wants entire list, Handle this as a fast special case */
+		countParam = members;
+		return( table ? table[ 0] : 0);
+	}
+	i = locate( symbol, length, &place);
+	if( i == 0)
+	{ /* Exact match special case, force count to one even if ambiguous */
+		countParam = 1;
+		return( table[ place]);
+	}
 /*
-        Compute the number of partial matches.
+		Compute the number of partial matches.
 */
 	for( i=0; place+i < members; i++)
 	{ // For each partial match
@@ -352,41 +352,41 @@ template< class THING> THING *lut<THING>::lookup_a( // lookup a symbol, allow am
 	}
 	if( i == 0)
 	{ // No matches, figure out longest string which matches
-	    i = 0;
-	    countParam = 0;
+		i = 0;
+		countParam = 0;
 /*
-        Run "i" for as int as the symbol we were given, and the symbol
-        following us alphabetically are equal.  Then back up one symbol, and
-        count the match length for that one.  Take whichever is longer.
-        
-        Note that in both cases, we don't need to check for reaching the end
-        of our symbol, because that would mean there was a front match (unique
-        or ambiguous) and we already know that didn't happen.
+		Run "i" for as int as the symbol we were given, and the symbol
+		following us alphabetically are equal.  Then back up one symbol, and
+		count the match length for that one.  Take whichever is longer.
+		
+		Note that in both cases, we don't need to check for reaching the end
+		of our symbol, because that would mean there was a front match (unique
+		or ambiguous) and we already know that didn't happen.
 */
-        if( place < members)
-        { // There is a symbol in the table to count
-        	int ilen;									// Following symbol len
+		if( place < members)
+		{ // There is a symbol in the table to count
+			int ilen;									// Following symbol len
 			const char* isymb = table[place]->sname( &ilen);
 
-            for(; symbol[i] == isymb[i]; i++)
-            	if( i == ilen) break;
-        }
+			for(; symbol[i] == isymb[i]; i++)
+				if( i == ilen) break;
+		}
 /*
-        Try the one alphabetically before it
+		Try the one alphabetically before it
 */
 		if( place > 0) place--;     /* Start before it alphabetically */
 		if( place < members)
 		{ // There is still a symbol here to look at
-        	int ilen;									// Preceeding symbol len
+			int ilen;									// Preceeding symbol len
 			const char* isymb = table[place]->sname( &ilen);
 
 			for( countParam = 0; symbol[ countParam] == isymb[ countParam]; countParam++)
-                if( countParam == ilen) break;
-        }
+				if( countParam == ilen) break;
+		}
 /*
-        Use whichever one is longer
+		Use whichever one is longer
 */
-        if( countParam < i) countParam = i;
+		if( countParam < i) countParam = i;
 		return( NULL);
 	}
 	countParam = i;

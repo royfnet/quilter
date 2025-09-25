@@ -32,125 +32,125 @@ size_t decode_utf8_to_utf32( uint32_t *utf32Ptr, const uint8_t* utf8_ptr);
 // Options interpreter with built-in help
 
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* boolOpts, bool* boolValues[],
-    const char* strOpts, const char** strValues[],
-    const char* floatOpts, double* floatValues[],
-    const char* intOpts, int* intValues[],
-    const char* int64Opts, int64* int64Values[],
-    const char* paramOpts, const char* const helpMessages[]);          // must have as many of help messages are there are opts combined
+	int argc, const char * const argv[],
+	const char* boolOpts, bool* boolValues[],
+	const char* strOpts, const char** strValues[],
+	const char* floatOpts, double* floatValues[],
+	const char* intOpts, int* intValues[],
+	const char* int64Opts, int64* int64Values[],
+	const char* paramOpts, const char* const helpMessages[]);          // must have as many of help messages are there are opts combined
 
 // To handle common options, build one that concatenates all the paraemters
 
 typedef struct AllOpts
 {
-    const char* boolOpts = nullptr; bool** boolValues = nullptr;
-    const char* strOpts = nullptr; const char*** strValues = nullptr;
-    const char* floatOpts = nullptr; double** floatValues = nullptr;
-    const char* intOpts = nullptr; int** intValues = nullptr;
-    const char* int64Opts = nullptr; int64** int64Values = nullptr;
-    const char* paramOpts = nullptr; const char** helpMessage = nullptr;          // must have as many of help messages are there are opts combined
+	const char* boolOpts = nullptr; bool** boolValues = nullptr;
+	const char* strOpts = nullptr; const char*** strValues = nullptr;
+	const char* floatOpts = nullptr; double** floatValues = nullptr;
+	const char* intOpts = nullptr; int** intValues = nullptr;
+	const char* int64Opts = nullptr; int64** int64Values = nullptr;
+	const char* paramOpts = nullptr; const char** helpMessage = nullptr;          // must have as many of help messages are there are opts combined
 } AllOpts_t;
 
 int GetAllOpts(		// Concatenates options
-    int argc, const char * const argv[],
+	int argc, const char * const argv[],
 	AllOpts_t **opts,
 	int count = 0);
 
 // Variations
 
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* strOpts, const char** strValues[]);
+	int argc, const char * const argv[],
+	const char* strOpts, const char** strValues[]);
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* boolOpts, bool* boolValues[],
-    const char* strOpts, const char** strValues[]);
+	int argc, const char * const argv[],
+	const char* boolOpts, bool* boolValues[],
+	const char* strOpts, const char** strValues[]);
 
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* boolOpts, bool* boolValues[],
-    const char* strOpts, const char** strValues[],
-    const char* floatOpts, double* floatValues[]);
+	int argc, const char * const argv[],
+	const char* boolOpts, bool* boolValues[],
+	const char* strOpts, const char** strValues[],
+	const char* floatOpts, double* floatValues[]);
 
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* floatOpts, double* floatValues[],
-    const char* intOpts, int* intValues[]);
+	int argc, const char * const argv[],
+	const char* floatOpts, double* floatValues[],
+	const char* intOpts, int* intValues[]);
 
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* boolOpts, bool* boolValues[],
-    const char* strOpts, const char** strValues[],
-    const char* floatOpts, double* floatValues[],
-    const char* intOpts, int* intValues[]);
+	int argc, const char * const argv[],
+	const char* boolOpts, bool* boolValues[],
+	const char* strOpts, const char** strValues[],
+	const char* floatOpts, double* floatValues[],
+	const char* intOpts, int* intValues[]);
 
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* boolOpts, bool* boolValues[],
-    const char* strOpts, const char** strValues[],
-    const char* floatOpts, double* floatValues[],
-    const char* intOpts, int* intValues[],
-    const char* int64Opts, int64* int64Values[]);
+	int argc, const char * const argv[],
+	const char* boolOpts, bool* boolValues[],
+	const char* strOpts, const char** strValues[],
+	const char* floatOpts, double* floatValues[],
+	const char* intOpts, int* intValues[],
+	const char* int64Opts, int64* int64Values[]);
 
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* strOpts, const char** strValues[],
-    const char* floatOpts, double* floatValues[],
-    const char* intOpts, int* intValues[]);
+	int argc, const char * const argv[],
+	const char* strOpts, const char** strValues[],
+	const char* floatOpts, double* floatValues[],
+	const char* intOpts, int* intValues[]);
 
 // Variations with params and help
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* strOpts, const char** strValues[],
-    const char* paramOpts,const char* const helpMessages[]);
+	int argc, const char * const argv[],
+	const char* strOpts, const char** strValues[],
+	const char* paramOpts,const char* const helpMessages[]);
 
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* boolOpts, bool* boolValues[],
-    const char* strOpts, const char** strValues[],
-    const char* paramOpts,const char* const helpMessages[]);
+	int argc, const char * const argv[],
+	const char* boolOpts, bool* boolValues[],
+	const char* strOpts, const char** strValues[],
+	const char* paramOpts,const char* const helpMessages[]);
 
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* boolOpts, bool* boolValues[],
-    const char* strOpts, const char** strValues[],
-    const char* floatOpts, double* floatValues[],
-    const char* paramOpts,const char* const helpMessages[]);
+	int argc, const char * const argv[],
+	const char* boolOpts, bool* boolValues[],
+	const char* strOpts, const char** strValues[],
+	const char* floatOpts, double* floatValues[],
+	const char* paramOpts,const char* const helpMessages[]);
 
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* boolOpts, bool* boolValues[],
-    const char* strOpts, const char** strValues[],
-    const char* intOpts, int* intValues[],
-    const char* paramOpts,const char* const helpMessages[]);
+	int argc, const char * const argv[],
+	const char* boolOpts, bool* boolValues[],
+	const char* strOpts, const char** strValues[],
+	const char* intOpts, int* intValues[],
+	const char* paramOpts,const char* const helpMessages[]);
 
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* boolOpts, bool* boolValues[],
-    const char* strOpts, const char** strValues[],
-    const char* floatOpts, double* floatValues[],
-    const char* intOpts, int* intValues[],
-    const char* paramOpts,const char* const helpMessages[]);
+	int argc, const char * const argv[],
+	const char* boolOpts, bool* boolValues[],
+	const char* strOpts, const char** strValues[],
+	const char* floatOpts, double* floatValues[],
+	const char* intOpts, int* intValues[],
+	const char* paramOpts,const char* const helpMessages[]);
 
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* strOpts, const char** strValues[],
-    const char* floatOpts, double* floatValues[],
-    const char* intOpts, int* intValues[],
-    const char* paramOpts,const char* const helpMessages[]);
+	int argc, const char * const argv[],
+	const char* strOpts, const char** strValues[],
+	const char* floatOpts, double* floatValues[],
+	const char* intOpts, int* intValues[],
+	const char* paramOpts,const char* const helpMessages[]);
 
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* floatOpts, double* floatValues[],
-    const char* intOpts, int* intValues[],
-    const char* paramOpts,const char* const helpMessages[]);
+	int argc, const char * const argv[],
+	const char* floatOpts, double* floatValues[],
+	const char* intOpts, int* intValues[],
+	const char* paramOpts,const char* const helpMessages[]);
 
 int GetAllOpts(
-    int argc, const char * const argv[],
-    const char* strOpts, const char** strValues[],
-    const char* floatOpts, double* floatValues[],
-    const char* paramOpts,const char* const helpMessages[]);
+	int argc, const char * const argv[],
+	const char* strOpts, const char** strValues[],
+	const char* floatOpts, double* floatValues[],
+	const char* paramOpts,const char* const helpMessages[]);
 
 static const int kUpArrow=0x1b5b41;
 static const int kDownArrow=0x1b5b42;
@@ -162,19 +162,19 @@ extern bool sTerminalHasCursorBugs;
 class ScopedGetch
 {// Within this scope, reads to STDIN will be single character
 #ifndef _WIN32
-    struct termios noncon;
+	struct termios noncon;
 #endif
-    char iTypeAhead[ 64];
-    int iTypeAheadLength;
+	char iTypeAhead[ 64];
+	int iTypeAheadLength;
 public:
-    ScopedGetch();
-    ~ScopedGetch();
-    size_t ReadBuf( char* buf, size_t len);
-    int ReadChar();
-    int ReadCmd();
-    void ReadLine( 	// Reads in a whole line to typeahaed buffer, or provided buffer
-    	char* buf = nullptr,
-    	size_t buflen = 0);
+	ScopedGetch();
+	~ScopedGetch();
+	size_t ReadBuf( char* buf, size_t len);
+	int ReadChar();
+	int ReadCmd();
+	void ReadLine( 	// Reads in a whole line to typeahaed buffer, or provided buffer
+		char* buf = nullptr,
+		size_t buflen = 0);
 };
 
 void PrintAllNotes();	// Essentially a unit test for PitchToFreq
@@ -195,8 +195,8 @@ bool AmIBeingDebugged(void);
 struct CommandProc
 {
 	int iArgc;
-    const char* const *iArgv;
-    bool iFromCommandLine = false;
+	const char* const *iArgv;
+	bool iFromCommandLine = false;
 	
 	CommandProc(
 		int argc,
@@ -217,29 +217,29 @@ extern const char* helpflag;
 void DoHelp(
 	const char* defaultCommand,	// Cammand to use if argc is 0, should never need to be used
 	CommandProc* cur,
-    const char** cmds,
+	const char** cmds,
 	int (** rtns)( CommandProc* cur));
 
 class EditableCommandLine
 {
-    char cmdLine[ 512] = {0};    // Command line read asynchrounously
+	char cmdLine[ 512] = {0};    // Command line read asynchrounously
 	int readCh = 'R'-64;         // Character result
-    static std::vector<std::string> cmdLineHistory;
-    std::string temporaryLastLine;
-    int arrowPos = (int) cmdLineHistory.size();           // Position in cmdLineHistory for uparrow/downarrow
-    int pos = 0;            // Byte position to insert in cmdLine
-    int utfBytesLeft = 0;   // Working out a UTF8 multibyte
-    int utfPos = 0;         // Position of first byte of UTF8  multibyte
-    int len = CountItems( cmdLine) - 1;  // Always leave the trailing nul
-    const char* prompt = ">";
+	static std::vector<std::string> cmdLineHistory;
+	std::string temporaryLastLine;
+	int arrowPos = (int) cmdLineHistory.size();           // Position in cmdLineHistory for uparrow/downarrow
+	int pos = 0;            // Byte position to insert in cmdLine
+	int utfBytesLeft = 0;   // Working out a UTF8 multibyte
+	int utfPos = 0;         // Position of first byte of UTF8  multibyte
+	int len = CountItems( cmdLine) - 1;  // Always leave the trailing nul
+	const char* prompt = ">";
 
 public:
-    EditableCommandLine( const char* promptp);
-    void DisplayPrompt();
-    char* ProcessOneCharacter( int readCh);
+	EditableCommandLine( const char* promptp);
+	void DisplayPrompt();
+	char* ProcessOneCharacter( int readCh);
 };
 /*
-        Get a command line with history and editing, but also works in debugger of if stdin is redirected.
+		Get a command line with history and editing, but also works in debugger of if stdin is redirected.
  */
 void ConsoleGetLine( const char* prompt, char* buffer, size_t len);
 

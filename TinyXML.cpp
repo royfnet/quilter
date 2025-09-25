@@ -322,7 +322,7 @@ bool TinyXml::InquireByKeyword( const keywordPair_t* keywordList, char** returne
  //
  // returnedValue is a direct pointer in the content, don't write back to it!
 	if( iMyKeyword == nullptr)
- 		return false;	// We are not initialized
+		return false;	// We are not initialized
 	InquiryContext_t context = {keywordList, returnedParameters, returnedValue};
 	return !IterateOverCcontent( &context, InquiryFinder, nullptr);
 }
@@ -333,7 +333,7 @@ bool TinyXml::InquireByKeyword( char** returnedParameters, char** returnedValue,
  // Don't forget to add a trailing nullptr at the end of your parameter list or weird things will happen
  // Note you don't need all of the top levels.
 	if( iMyKeyword == nullptr)
- 		return false;	// We are not initialized
+		return false;	// We are not initialized
 	va_list vl;
 	va_start(vl,returnedValue);
 	const keywordPair_t* nextParent = nullptr;
@@ -366,7 +366,7 @@ bool TinyXml::InquireByKeyword( char** returnedParameters, char** returnedValue,
 bool TinyXml::IterateOverCcontent( void* context, ContentHandler_t handler, const keywordPair_t* parent)
 {// Calls the handler for each terminus keyword. Stops iterating if hander returns false
 	if( iMyKeyword == nullptr)
- 		return false;	// We are not initialized
+		return false;	// We are not initialized
 	keywordPair_t mykey;
 	mykey.iParent = parent;
 	mykey.keyword = iMyKeyword;
@@ -394,27 +394,27 @@ bool TinyXml::IterateOverCcontent( void* context, ContentHandler_t handler, cons
 #if 1
 bool batoi( char *s, int *result)
 {// A version of atoi that returns if it was successful or not
-    char* done;
-    errno = 0;
-    s = SkipWhitespace( s);
-    int64 checkval = strtoll( s, &done, 10);
-    if( sizeof( int64) > sizeof( int))
-    {
-        if( (done == s) || (checkval > INT_MAX) || (checkval < INT_MIN) || (errno != 0))
-            return false;
-    }
-    *result = (int) checkval;
-    return true;
+	char* done;
+	errno = 0;
+	s = SkipWhitespace( s);
+	int64 checkval = strtoll( s, &done, 10);
+	if( sizeof( int64) > sizeof( int))
+	{
+		if( (done == s) || (checkval > INT_MAX) || (checkval < INT_MIN) || (errno != 0))
+			return false;
+	}
+	*result = (int) checkval;
+	return true;
 }
 
 bool batoll( char *s, int64 *result)
 {// A version of atoi that returns if it was successful or not
-    char* done;
-    errno = 0;
-    s = SkipWhitespace( s);
-    int64 checkval = strtoll( s, &done, 10);
-    *result = checkval;
-    return true;
+	char* done;
+	errno = 0;
+	s = SkipWhitespace( s);
+	int64 checkval = strtoll( s, &done, 10);
+	*result = checkval;
+	return true;
 }
 
 char* Sanitize( char* pos)
@@ -430,7 +430,7 @@ char* Sanitize( char* pos)
 	{// Not quoted, skip printables skipping spaces, tabs, newlines, and other control characters
 	 // The trick here is to allow spaces inside the string, but trailing spaces are removed
 		pos = tail;
-	 	tail = pos + strlen( pos);
+		tail = pos + strlen( pos);
 		while( tail > pos)
 		{// For all whitespace characters at the end
 			--tail;
@@ -787,11 +787,11 @@ char* TinyXml::InitializeFromJSON( char* pos, const char* parentKeyword)
  // BEWARE! the caracter string passed IS modified, terminating nuls are scattered througought,
  // and must have a lifetime that exceeds this object, as we keep pointers into it.  It is NOT
  // copied.
-    if( !iMyKeyword)
-    {
-        iMyKeyword = "root";
-        iMyParameters = &emptyString;
-    }
+	if( !iMyKeyword)
+	{
+		iMyKeyword = "root";
+		iMyParameters = &emptyString;
+	}
 	pos = SkipWhitespace( pos);		// BUG this allows XML comments
 	if( *pos == 0)
 	{// I guess we're done
@@ -808,9 +808,9 @@ char* TinyXml::InitializeFromJSON( char* pos, const char* parentKeyword)
 				break;		// End of list
 			}
 			iXmlContent.push_back( new TinyXml());
-            iXmlContent[ index]->iMyIndex = index;
-            iXmlContent[ index]->iMyKeyword = "Array-Element";
-            iXmlContent[ index]->iMyParameters = &emptyString;
+			iXmlContent[ index]->iMyIndex = index;
+			iXmlContent[ index]->iMyKeyword = "Array-Element";
+			iXmlContent[ index]->iMyParameters = &emptyString;
 			pos = iXmlContent[ index]->InitializeFromJSON( pos, iMyKeyword);
 			++index;
 			pos = SkipWhitespace( pos);
@@ -831,7 +831,7 @@ char* TinyXml::InitializeFromJSON( char* pos, const char* parentKeyword)
 	{// I don't fully understand how '{' is different from '['
 	 // other than '[' are unnamed.
 		++pos;
-        for( int index = 0;;++index)
+		for( int index = 0;;++index)
 		{// add each item in the list
 			if(*pos == '}')
 			{
@@ -849,7 +849,7 @@ char* TinyXml::InitializeFromJSON( char* pos, const char* parentKeyword)
 			else if(*pos == '}')
 			{
 				*pos++ = 0;
-                Sanitize( iXmlContent[ index]->iMyContent);    // Temporary
+				Sanitize( iXmlContent[ index]->iMyContent);    // Temporary
 				break;		// End of list
 			}
 			else
@@ -862,7 +862,7 @@ char* TinyXml::InitializeFromJSON( char* pos, const char* parentKeyword)
 		pos = SkipQuotedString( pos);
 		if( *pos)
 		{// Not done, Terminate the keyword and get contents
-            iMyParameters = pos;
+			iMyParameters = pos;
 			*pos++ = 0;
 			pos = SkipWhitespace( pos);
 			if( *pos != ':')
