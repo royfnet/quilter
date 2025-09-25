@@ -36,10 +36,10 @@
     <ClCompile Include="..\..\xraise.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\AudioNew\src\audio\win\getopt.cpp">
+    <ClCompile Include="..\converter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\converter.cpp">
+    <ClCompile Include="..\getopt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,10 +65,10 @@
     <ClInclude Include="..\..\xraise.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\AudioNew\src\audio\win\getopt.h">
+    <ClInclude Include="..\converter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\converter.h">
+    <ClInclude Include="..\getopt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

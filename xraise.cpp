@@ -30,11 +30,11 @@ bool frontcmp( const char* pattern, const char* s)
 
 void exexception::SetFileLine( const char* file, int line) const
 {
-    const char* filename = strrchr( file, '/');     // Strip off path, if there is one
-    if( filename == nullptr)
-        filename = file;    // There was no path
-    else
-        ++filename;         // There was a path, skip over the slash
+	const char* filename = strrchr( file, '/');     // Strip off path, if there is one
+	if( filename == nullptr)
+		filename = file;    // There was no path
+	else
+		++filename;         // There was a path, skip over the slash
 	snprintf( whatString, CountItems( whatString), "%s, file %s line %d", whatString, filename, line);
 }
 
@@ -144,17 +144,17 @@ void DisplayException( const std::exception &err)
 
 void TestFn( int status, const char* msg, const char* file, int line)
 {
-    if( status)
-    {
+	if( status)
+	{
 		if( status == -1)
 		{
 			status = errno;
 			if( msg == NULL) FileLine( file, line) + xraiseit( "Failure status code", "int status", status, "str error", strerror( status), NULL);
 			FileLine( file, line) + xraiseit( "Failure status code", "int status", status, "str error", strerror( status), "str action", msg,  NULL);
 		}
-        if( msg == NULL) FileLine( file, line) + xraiseit( "Failure status code", "int status", status, "str error", strerror(status), NULL);
-        FileLine( file, line) + xraiseit( "Failure status code", "int status", status, "str action", msg, "str error", strerror(status), NULL);
-    }
+		if( msg == NULL) FileLine( file, line) + xraiseit( "Failure status code", "int status", status, "str error", strerror(status), NULL);
+		FileLine( file, line) + xraiseit( "Failure status code", "int status", status, "str action", msg, "str error", strerror(status), NULL);
+	}
 }
 
 void TestFn( void* status, const char* msg, const char* file, int line)
