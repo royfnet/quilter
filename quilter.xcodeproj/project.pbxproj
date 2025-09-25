@@ -1,0 +1,339 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5002F0052E77B34D0002F484 /* quilt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002F0042E77B34D0002F484 /* quilt.cpp */; };
+		50276EE72DC4241E00F9F365 /* JeffSema.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50276EE62DC4241E00F9F365 /* JeffSema.cpp */; };
+		50C4ED452DC1A1B4001A4254 /* lut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50C4ED442DC1A1B4001A4254 /* lut.cpp */; };
+		50FCBF0024C5306E00A5323E /* quilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FCBEFF24C5306D00A5323E /* quilter.cpp */; };
+		50FCBF0724C5364500A5323E /* TinyXML.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FCBF0124C5364500A5323E /* TinyXML.cpp */; };
+		50FCBF0824C5364500A5323E /* xraise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FCBF0524C5364500A5323E /* xraise.cpp */; };
+		50FCBF0924C5364500A5323E /* ConsoleThings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FCBF0624C5364500A5323E /* ConsoleThings.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		50A3C3091FA0D5650074B7AB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		5002F0032E77B34D0002F484 /* quilt.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = quilt.hpp; sourceTree = "<group>"; };
+		5002F0042E77B34D0002F484 /* quilt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = quilt.cpp; sourceTree = "<group>"; };
+		50276EE42DC414F100F9F365 /* quilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = quilter.h; sourceTree = SOURCE_ROOT; };
+		50276EE52DC4241E00F9F365 /* JeffSema.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JeffSema.h; sourceTree = SOURCE_ROOT; };
+		50276EE62DC4241E00F9F365 /* JeffSema.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JeffSema.cpp; sourceTree = SOURCE_ROOT; };
+		50A3C30B1FA0D5650074B7AB /* quilter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = quilter; sourceTree = BUILT_PRODUCTS_DIR; };
+		50C4ED432DC1A1B4001A4254 /* lut.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lut.h; sourceTree = SOURCE_ROOT; };
+		50C4ED442DC1A1B4001A4254 /* lut.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = lut.cpp; sourceTree = SOURCE_ROOT; };
+		50FCBEFF24C5306D00A5323E /* quilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = quilter.cpp; sourceTree = SOURCE_ROOT; };
+		50FCBF0124C5364500A5323E /* TinyXML.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TinyXML.cpp; sourceTree = SOURCE_ROOT; };
+		50FCBF0224C5364500A5323E /* TinyXML.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TinyXML.hpp; sourceTree = SOURCE_ROOT; };
+		50FCBF0324C5364500A5323E /* xraise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xraise.h; sourceTree = SOURCE_ROOT; };
+		50FCBF0424C5364500A5323E /* ConsoleThings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsoleThings.h; sourceTree = SOURCE_ROOT; };
+		50FCBF0524C5364500A5323E /* xraise.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = xraise.cpp; sourceTree = SOURCE_ROOT; };
+		50FCBF0624C5364500A5323E /* ConsoleThings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConsoleThings.cpp; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		50A3C3081FA0D5650074B7AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		50A3C3021FA0D5650074B7AB = {
+			isa = PBXGroup;
+			children = (
+				5002F0032E77B34D0002F484 /* quilt.hpp */,
+				5002F0042E77B34D0002F484 /* quilt.cpp */,
+				50FCBEFF24C5306D00A5323E /* quilter.cpp */,
+				50276EE42DC414F100F9F365 /* quilter.h */,
+				50FCBF0624C5364500A5323E /* ConsoleThings.cpp */,
+				50FCBF0424C5364500A5323E /* ConsoleThings.h */,
+				50FCBF0124C5364500A5323E /* TinyXML.cpp */,
+				50FCBF0224C5364500A5323E /* TinyXML.hpp */,
+				50276EE52DC4241E00F9F365 /* JeffSema.h */,
+				50276EE62DC4241E00F9F365 /* JeffSema.cpp */,
+				50C4ED432DC1A1B4001A4254 /* lut.h */,
+				50C4ED442DC1A1B4001A4254 /* lut.cpp */,
+				50FCBF0524C5364500A5323E /* xraise.cpp */,
+				50FCBF0324C5364500A5323E /* xraise.h */,
+				50A3C30C1FA0D5650074B7AB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		50A3C30C1FA0D5650074B7AB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				50A3C30B1FA0D5650074B7AB /* quilter */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		50A3C30A1FA0D5650074B7AB /* quilter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50A3C3121FA0D5650074B7AB /* Build configuration list for PBXNativeTarget "quilter" */;
+			buildPhases = (
+				50B3AF7A2E67779900B9F2D9 /* ShellScript */,
+				50A3C3071FA0D5650074B7AB /* Sources */,
+				50A3C3081FA0D5650074B7AB /* Frameworks */,
+				50A3C3091FA0D5650074B7AB /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = quilter;
+			productName = sq;
+			productReference = 50A3C30B1FA0D5650074B7AB /* quilter */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		50A3C3031FA0D5650074B7AB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1640;
+				ORGANIZATIONNAME = "Jeffrey Lomicka";
+				TargetAttributes = {
+					50A3C30A1FA0D5650074B7AB = {
+						CreatedOnToolsVersion = 7.1;
+					};
+				};
+			};
+			buildConfigurationList = 50A3C3061FA0D5650074B7AB /* Build configuration list for PBXProject "quilter" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 50A3C3021FA0D5650074B7AB;
+			productRefGroup = 50A3C30C1FA0D5650074B7AB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				50A3C30A1FA0D5650074B7AB /* quilter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		50B3AF7A2E67779900B9F2D9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ntouch XTdbEditor.cpp\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		50A3C3071FA0D5650074B7AB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50FCBF0824C5364500A5323E /* xraise.cpp in Sources */,
+				50FCBF0024C5306E00A5323E /* quilter.cpp in Sources */,
+				50276EE72DC4241E00F9F365 /* JeffSema.cpp in Sources */,
+				50FCBF0924C5364500A5323E /* ConsoleThings.cpp in Sources */,
+				50C4ED452DC1A1B4001A4254 /* lut.cpp in Sources */,
+				5002F0052E77B34D0002F484 /* quilt.cpp in Sources */,
+				50FCBF0724C5364500A5323E /* TinyXML.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		50A3C3101FA0D5650074B7AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++23";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Development: jeffreylomicka@comcast.net (6F45U7P6FF)";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SYMROOT = /Users/jlomicka/Documents/LocalBuild;
+			};
+			name = Debug;
+		};
+		50A3C3111FA0D5650074B7AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++23";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Development: jeffreylomicka@comcast.net (6F45U7P6FF)";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SYMROOT = /Users/jlomicka/Documents/LocalBuild;
+			};
+			name = Release;
+		};
+		50A3C3131FA0D5650074B7AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
+				HEADER_SEARCH_PATHS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		50A3C3141FA0D5650074B7AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
+				HEADER_SEARCH_PATHS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		50A3C3061FA0D5650074B7AB /* Build configuration list for PBXProject "quilter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50A3C3101FA0D5650074B7AB /* Debug */,
+				50A3C3111FA0D5650074B7AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		50A3C3121FA0D5650074B7AB /* Build configuration list for PBXNativeTarget "quilter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50A3C3131FA0D5650074B7AB /* Debug */,
+				50A3C3141FA0D5650074B7AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 50A3C3031FA0D5650074B7AB /* Project object */;
+}
