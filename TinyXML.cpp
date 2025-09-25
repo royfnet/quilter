@@ -29,7 +29,7 @@ static char* SkipTokenStuff( char* pos)
 		)
 	)
 	{// Convert to upper case and move on
-		if( !sPreserveCase) *pos = toupper( *pos);
+		if( !sPreserveCase) *pos = (char)toupper( *pos);
 		++pos;
 	}
 	return pos;

@@ -156,7 +156,7 @@ size_t ReadFile(FILE *fp, char **buf)
  */
 void FGetLine( char* buffer, size_t len, FILE* f)
 {
-	int pos = 0;
+	size_t pos = 0;
 	while( pos < len)
 	{
 		if( feof( f))
@@ -164,7 +164,7 @@ void FGetLine( char* buffer, size_t len, FILE* f)
 			buffer[0] = 0;
 			break;
 		}
-		char ch = getc( f);
+		char ch = (char)getc( f);
 		if( ch == 10 || ch == 13)
 		{// Allow tetminate on either.  Clients should expect blank lines if input uses crlf.
 			buffer[ pos] = 0;
@@ -334,7 +334,7 @@ void AsyncGetLine( char* buffer, size_t len, FILE* f, JeffSemaphore &completionS
     new AsyncReader( completionSema, ready, buffer, len, f);
 }
 
-int SplitCommandLine( char* commandLine, int *argc, char** argv, size_t argvsize)
+int SplitCommandLine( char* commandLine, int *argc, char** argv, int argvsize)
 {// commandLine is edited, and argv is returned as references into it, should be in consolethings.cpp
 	*argc = 0;
 	--argvsize;		// This lets us compare before we overrun the size
@@ -481,7 +481,7 @@ int TestCmd( CommandProc* cur)
         uint32_t wbuf[ 512];
         ConsoleGetLine( "X to exit>", buf, 512);
         printf( "%s\n", buf);
-        for( int c = 0; c < strlen( buf); ++c) printf( "0x%x ", (int)(unsigned char) buf[ c]);
+        for( size_t c = 0; c < strlen( buf); ++c) printf( "0x%x ", (int)(unsigned char) buf[ c]);
         printf( "\n");
         decode_utf8_to_utf32( wbuf, (unsigned char*) buf);
         for( int c = 0; wbuf[c]!=0; ++c)
@@ -554,8 +554,8 @@ int RunCmd( CommandProc* cur)
 			SplitCommandLine( scrap, &ac, av, CountItems( av));
 			if( ac > 0)
 			{// this line isn't logically blank, dispatch on it
-				CommandProc cur( ac, av);
-				result = Dispatch( &cur, cmds, rtns);
+				CommandProc curp( ac, av);
+				result = Dispatch( &curp, cmds, rtns);
 				if( result == 2)
 					break;
 			}
@@ -666,8 +666,8 @@ public:
     
     void Execute() override
     {// Process most recent charactere if there is one, and queue up reading the next
-		char* cmdLine = ProcessOneCharacter( readCh);
-		if( cmdLine)
+		char* cmdLine1 = ProcessOneCharacter( readCh);
+		if( cmdLine1)
 		{
 			delete gch;			// Run command line in normal mode
 			gch = nullptr;
@@ -675,9 +675,9 @@ public:
             {
                 char* av[64];
                 int ac = 0;
-                if( *cmdLine)
+                if( *cmdLine1)
                 {// Something to do
-                    SplitCommandLine( cmdLine, &ac, av, CountItems( av));
+                    SplitCommandLine( cmdLine1, &ac, av, CountItems( av));
                     if( ac != 0)
                     {
                         CommandProc cur( ac, av);
@@ -693,7 +693,7 @@ public:
             {
                 printf( "Don't know why it failed\n");
             }
-            *cmdLine = 0;
+            *cmdLine1 = 0;
             if( result == 2)
             {// Exiting, mark it so
 				exiting = true;
@@ -848,7 +848,7 @@ int main( int argc, char **argv)
             needPrompt = false;
         }
 		AsyncHelper::iCompletionSema.Decrement();
-		for( int i = 0; i < activities.size(); ++i)
+		for( size_t i = 0; i < activities.size(); ++i)
 		{// Process all the handlers, including the first one that takes commands from the command line
 			if( activities[ i]->iReadyToExecute)
 			{// This one is ready to go, launch it

@@ -149,7 +149,7 @@ struct ltest
 	const char* name;		// Symbol name
 	int value;		// Value
 	const char* sname( int *len) { *len = int( strlen( name)); return( name);}
-	const char* dname( int *l, int i) {return sname( l);}
+	const char* dname( int *l, int i [[maybe_unused]]) {return sname( l);}
 	ltest( const char* n, int v) : name( n), value( v) {}
 };
 

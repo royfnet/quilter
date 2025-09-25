@@ -91,8 +91,8 @@ int GetAllOpts(
     char* o = optstr;
     for( const char* s = boolOpts; s && *s; ++s)
     {
-        *o++ = tolower( *s);
-        *o++ = toupper( *s);
+        *o++ = (char)tolower( *s);
+        *o++ = (char)toupper( *s);
         *o++ = ':';
     }
     for( const char* s = strOpts; s && *s; ++s)
@@ -127,7 +127,7 @@ int GetAllOpts(
     {
         char optResult = 0;
 #ifdef _WIN32
-		while( (optResult = getopt(argc, (const char**)(argv), optstr)) >= 0)
+		while( (optResult = (char)getopt(argc, (const char**)(argv), optstr)) >= 0)
 #else
         while( (optResult = getopt( argc, const_cast<char * const *>( argv), optstr)) >= 0)
 #endif
@@ -368,7 +368,7 @@ ScopedGetch::~ScopedGetch()
 #endif
 }
 
-size_t ScopedGetch::ReadBuf( char* buf, size_t len)
+size_t ScopedGetch::ReadBuf( char* buf [[maybe_unused]], size_t len [[maybe_unused]])
 {
 #if MACCODE
     fd_set rfds;
@@ -519,7 +519,7 @@ int xatoi( const char* s)
     char* done;
     errno = 0;
     int64 checkval = strtoll( s, &done, 10);
-    if( sizeof( int64) > sizeof( int))
+    if( sizeof (int64) > sizeof (int))
     {
         if( (done != s + strlen( s)) || (checkval > INT_MAX) || (checkval < INT_MIN) || (errno != 0))
             xraise( "Value is not an integer", "str value", s, NULL);
@@ -533,7 +533,7 @@ int64 xatoint64( const char* s)
     errno = 0;
 	int64 checkval = strtoll( s, &done, 10);
 
-    if( sizeof(int64) > sizeof( int))
+    if( sizeof (int64) > sizeof (int))
     {
         if( (done != s + strlen( s)) || (errno != 0))
             xraise( "Value is not an integer", "str value", s, NULL);
@@ -545,9 +545,9 @@ double xatof( const char* s)
 {
     char* done;
     errno = 0;
-    double checkval = strtold( s, &done);
-        if( (done != s + strlen( s)) || (errno != 0))
-            xraise( "Value is not a number", "str value", s, NULL);
+    double checkval = strtod( s, &done);
+    if( (done != s + strlen( s)) || (errno != 0))
+        xraise( "Value is not a number", "str value", s, NULL);
     return checkval;
 }
 
@@ -654,9 +654,9 @@ extern "C" char* strptime(
     input >> std::get_time(tm, f);
     //if (input.eof()) return (char*)(s + strlen(s));
     if (input.fail()) {
-        return nullptr;
-    }
-    return (char*)(s + input.tellg());
+    return nullptr;
+}
+return const_cast<char*>(s) + static_cast<std::streamoff>(input.tellg());
 }
 #endif
 
@@ -700,7 +700,7 @@ public:
 		return iName;
 	}
 	
-	char* dname( int* len, int whatIsThisFor)
+	char* dname( int* len, int whatIsThisFor [[maybe_unused]])
 	{
 		if( len) *len = (int) strlen( iName);
 		return iName;
@@ -740,7 +740,7 @@ double PitchToFreq( const char* arg)
 					char o[ 2];
 					o[ 1] = 0;
 					strcpy( name, allNotes[ scale][ n]);
-					o[ 0] = octave + '0';
+					o[ 0] = (char)(octave + '0');
 					strcat( name, o);
 					if( !sNoteList.lookup( name, (int) strlen( name)))
 					{// This is not a duplicate, we we can add it to the list.
@@ -1607,7 +1607,7 @@ bool Utf8IsWide( const char* startByte)     // Returns true it a character MIGHT
 }
 
 
-char* EditableCommandLine::ProcessOneCharacter( int readCh)
+char* EditableCommandLine::ProcessOneCharacter( int ch)
 {
 /*
 			      UTF8 table
@@ -1627,7 +1627,7 @@ char* EditableCommandLine::ProcessOneCharacter( int readCh)
     {// Not building a UTF string, these are the same
         utfPos = pos;
     }
-    switch( readCh)
+    switch( ch)
     {
     case 0: // Timeeout.  Neeed a veresion of ScopedGetch that doesn't time out
         break;
@@ -1657,10 +1657,10 @@ char* EditableCommandLine::ProcessOneCharacter( int readCh)
         }
         break;
     case kDownArrow:
-        if( arrowPos < cmdLineHistory.size())
+        if( arrowPos < (int)cmdLineHistory.size())
         {
             ++arrowPos;
-            if( arrowPos == cmdLineHistory.size())
+            if( arrowPos == (int)cmdLineHistory.size())
                 strncpy( cmdLine, temporaryLastLine.c_str(), len);
             else
                 strncpy( cmdLine, cmdLineHistory[ arrowPos].c_str(), len);
@@ -1672,7 +1672,7 @@ char* EditableCommandLine::ProcessOneCharacter( int readCh)
     case kUpArrow:
         if( arrowPos > 0)
         {// Can't do anythnig if already at the top
-            if( arrowPos == cmdLineHistory.size())
+            if( arrowPos == (int)cmdLineHistory.size())
             {// Save this out to come back to it on downarrow if we don't take any of the previous commands
                 temporaryLastLine = cmdLine;
             }
@@ -1723,14 +1723,14 @@ char* EditableCommandLine::ProcessOneCharacter( int readCh)
     default:
         memcpy( &cmdLine[ pos+1], &cmdLine[ pos], len - pos);
         ++cmdLen;      // We cached string length earlier
-        cmdLine[ pos++] = readCh;
+        cmdLine[ pos++] = (char)ch;
         if( utfBytesLeft)
         {// Working off a UTF8 thing
             --utfBytesLeft;
         }
-        else if( UTF8ByteCount( readCh) != 1)
+        else if( UTF8ByteCount( ch) != 1)
         {// Starting a UTF8 thing
-            utfBytesLeft = UTF8ByteCount( readCh) - 1;
+            utfBytesLeft = UTF8ByteCount( ch) - 1;
         }
         if( utfBytesLeft == 0)
         {// Reached the end of this UTF8 multi-byte - or is just one byte
@@ -1759,7 +1759,7 @@ char* EditableCommandLine::ProcessOneCharacter( int readCh)
 			}
             else
             {// Character width is one, display it and back up a letter
-                printf( "\0337%s\0338\033[C", &cmdLine[ utfPos]);
+                printf( "\033" "7%s" "\033" "8" "\033" "[C", &cmdLine[ utfPos]);
                 fflush( stdout);
             }
         }
