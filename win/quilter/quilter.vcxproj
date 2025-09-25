@@ -78,30 +78,40 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>../../pthreads-w32/include;</AdditionalIncludeDirectories>
+      <AdditionalOptions>/D__INT64_TYPE__=__int64 /D__DEFINED_size_t /D__DEFINED_struct_timespec %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>pthreadVC2.lib;Ws2_32.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\pthreads-w32\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>../../pthreads-w32/include;</AdditionalIncludeDirectories>
+      <AdditionalOptions>/D__INT64_TYPE__=__int64 /D__DEFINED_size_t /D__DEFINED_struct_timespec %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>pthreadVC2.lib;Ws2_32.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\pthreads-w32\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -112,12 +122,13 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>C:/Users/jlomicka/Developer/pthreads-w32-2-9-1-release/Pre-built.2/include;C:/Users/jlomicka/Developer/boost_1_82_0;$(ProjectDir)..\asiosdk_2.3.3_2019-06-14\common;$(ProjectDir)..\asiosdk_2.3.3_2019-06-14\host;$(ProjectDir)..\asiosdk_2.3.3_2019-06-14\host\pc;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../pthreads-w32/include;C:/Users/jlomicka/Developer/pthreads-w32-2-9-1-release/Pre-built.2/include;C:/Users/jlomicka/Developer/boost_1_82_0;$(ProjectDir)..\asiosdk_2.3.3_2019-06-14\common;$(ProjectDir)..\asiosdk_2.3.3_2019-06-14\host;$(ProjectDir)..\asiosdk_2.3.3_2019-06-14\host\pc;</AdditionalIncludeDirectories>
+      <AdditionalOptions>/D__INT64_TYPE__=__int64 /D__DEFINED_size_t /D__DEFINED_struct_timespec %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\jlomicka\Developer\pthreads-w32-2-9-1-release\Pre-built.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\pthreads-w32\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>pthreadVC2.lib;Ws2_32.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -131,19 +142,19 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>C:/Users/jlomicka/Developer/pthreads-w32-2-9-1-release/Pre-built.2/include;C:/Users/jlomicka/Developer/boost_1_82_0;$(ProjectDir)..\asiosdk_2.3.3_2019-06-14\common;$(ProjectDir)..\asiosdk_2.3.3_2019-06-14\host;$(ProjectDir)..\asiosdk_2.3.3_2019-06-14\host\pc;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../pthreads-w32/include;C:/Users/jlomicka/Developer/pthreads-w32-2-9-1-release/Pre-built.2/include;C:/Users/jlomicka/Developer/boost_1_82_0;$(ProjectDir)..\asiosdk_2.3.3_2019-06-14\common;$(ProjectDir)..\asiosdk_2.3.3_2019-06-14\host;$(ProjectDir)..\asiosdk_2.3.3_2019-06-14\host\pc;</AdditionalIncludeDirectories>
+      <AdditionalOptions>/D__INT64_TYPE__=__int64 /D__DEFINED_size_t /D__DEFINED_struct_timespec %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\jlomicka\Developer\pthreads-w32-2-9-1-release\Pre-built.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\pthreads-w32\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>pthreadVC2.lib;Ws2_32.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\AudioNew\src\audio\win\getopt.cpp" />
     <ClCompile Include="..\..\ConsoleThings.cpp" />
     <ClCompile Include="..\..\JeffSema.cpp" />
     <ClCompile Include="..\..\lut.cpp" />
@@ -152,9 +163,9 @@
     <ClCompile Include="..\..\TinyXML.cpp" />
     <ClCompile Include="..\..\xraise.cpp" />
     <ClCompile Include="..\converter.cpp" />
+    <ClCompile Include="..\getopt.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\AudioNew\src\audio\win\getopt.h" />
     <ClInclude Include="..\..\ConsoleThings.h" />
     <ClInclude Include="..\..\JeffSema.h" />
     <ClInclude Include="..\..\lut.h" />
@@ -163,6 +174,7 @@
     <ClInclude Include="..\..\TinyXML.hpp" />
     <ClInclude Include="..\..\xraise.h" />
     <ClInclude Include="..\converter.h" />
+    <ClInclude Include="..\getopt.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
