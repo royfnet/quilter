@@ -17,9 +17,10 @@
 #include <cstdarg>
 #include <stdlib.h>
 #include <errno.h>
-#include <string.h>
+#include <ctype.h>
 
-//using namespace std;
+//		Useful utilities for which this is a good place to put them
+
 bool noisy = false;		// Debugging logs
 
 bool frontcmp( const char* pattern, const char* s)
@@ -27,6 +28,53 @@ bool frontcmp( const char* pattern, const char* s)
 	size_t len = strlen( pattern);
 	return 0 == strncmp( pattern, s, len);
 }
+
+char tolower_c( char ch)
+{// Type-matched to char instead of int
+	return (char) tolower( ch);
+}
+
+char toupper_c( char ch)
+{// Type-matched to char instead of int
+	return (char) toupper( ch);
+}
+
+void EndianSwap( void* thing, size_t size)
+{// Variable sized endian swapper for any data type
+	char* t = (char*) thing;
+	for( size_t i = 0; i < size/2; ++i )
+	{
+		char temp = t[ i];
+		t[ i] = t[ size-i-1];
+		t[ size-i-1] = temp;
+	}
+}
+
+int strli( const char* s)		// Integer version of strlen
+{
+	return (int) strlen( s);
+}
+
+const char* ctim( time_t tv)
+{// essentially ctime() without the stupid terminating newline
+ // but also uses a 4-entry ring buffer so you can have four simultaniously active time buffers
+ // Still not thread safe 'cause sTimeBufPos is not atomic.
+	static char sTimeBuffer[ 4][26];
+	static int sTimeBufPos = 0;
+#if WINCODE
+	char* retval = sTimeBuffer[sTimeBufPos];
+	ctime_s(sTimeBuffer[sTimeBufPos++], 26, &tv);
+#else
+    char* retval = ctime_r( &tv, sTimeBuffer[sTimeBufPos++]);
+#endif
+    Test( retval);
+    retval[ strlen( retval)-1]=0;
+    sTimeBufPos &= 3;
+    return retval;
+}
+
+
+//		Actual exeption related stuff
 
 void exexception::SetFileLine( const char* file, int line) const
 {

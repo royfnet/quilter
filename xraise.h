@@ -18,16 +18,28 @@
 #include <cstring>
 #include <exception>
 #include <cstdio>
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <time.h>
 
-#define versionString "3.0.0"	// Not the best place for this
 
 #define CountItems( a) int(sizeof( a)/sizeof( (a)[0]))
 #define SUCCESS 1
+
 typedef long long int64;
+extern const char* versionString;		// Clients need to declare this in their own main
 extern bool noisy;		// Used to key debugging logs
+/*
+		Utility routines
+*/
+bool frontcmp( const char* pattern, const char* s);
+void EndianSwap( void* thing, size_t size);
+char tolower_c( char ch);
+char toupper_c( char ch);
+int strli( const char* s);		// Integer version of strlen
+const char* ctim( time_t tv);
 
 class exexception : public std::exception
 {// the kind of exception that is thrown by xraise()
@@ -47,7 +59,6 @@ public:
 	FileLine( const char* file, const int line) : iFile( file), iLine( line) {}
 };
 
-bool frontcmp( const char* pattern, const char* s);
 exexception xraiseit( const char* xcode, ...);		// The xraise method
 void operator+( const FileLine& f, const exexception& e);
 
@@ -101,6 +112,8 @@ void TestFn(HANDLE status, const char* msg, const char* file, int line);
 #define MACCODE 1
 #define USE_ASIO 0
 #define PLAYCMD 1
+
+#include <unistd.h>
 
 typedef int AtomicInttype_t;
 typedef int64 AtomicInt64type_t;

@@ -20,13 +20,10 @@
 #include <termios.h>
 #include <sys/sysctl.h>
 #endif
-#include <ctype.h>
 #include <errno.h>
 #include <limits.h>
-#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include <time.h>
 #include <sys/stat.h>
 #include <filesystem>
 #include <vector>
@@ -91,8 +88,8 @@ int GetAllOpts(
     char* o = optstr;
     for( const char* s = boolOpts; s && *s; ++s)
     {
-        *o++ = tolower( *s);
-        *o++ = toupper( *s);
+        *o++ = tolower_c( *s);
+        *o++ = toupper_c( *s);
         *o++ = ':';
     }
     for( const char* s = strOpts; s && *s; ++s)
@@ -125,8 +122,8 @@ int GetAllOpts(
 
     try
     {
-        char optResult = 0;
-#ifdef _WIN32
+        int optResult = 0;
+#if WINCODE
 		while( (optResult = getopt(argc, (const char**)(argv), optstr)) >= 0)
 #else
         while( (optResult = getopt( argc, const_cast<char * const *>( argv), optstr)) >= 0)
@@ -205,7 +202,7 @@ int GetAllOpts(
 
         if( paramOpts && !displayHelp)
         {// Parameter checking, but skip if display help
-            int requiredParams = (int) strlen( paramOpts);
+            int requiredParams = strli( paramOpts);
             if( strchr( paramOpts, '.'))
             {// There are a minimum number of parameters, but could be much more
                 if( argc - optind < requiredParams-1)
@@ -368,9 +365,9 @@ ScopedGetch::~ScopedGetch()
 #endif
 }
 
+#if MACCODE
 size_t ScopedGetch::ReadBuf( char* buf, size_t len)
 {
-#if MACCODE
     fd_set rfds;
     struct timeval tv;
 
@@ -386,15 +383,11 @@ size_t ScopedGetch::ReadBuf( char* buf, size_t len)
 
     }
     else TestMsg( errno, strerror( errno));
-#endif
     return 0;
 }
-#if WINCODE
-#include "win/converter.h"
-#endif
+
 int ScopedGetch::ReadChar()
 {
-#if MACCODE
     for(;;)
     {// Until we get something or time out
         if( iTypeAheadLength > 0)
@@ -407,9 +400,13 @@ int ScopedGetch::ReadChar()
         if( iTypeAheadLength == 0)
             return 0;
     }
+}
 #endif
 #if WINCODE
-    if (iTypeAheadLength > 0)
+#include "win/converter.h"
+ int ScopedGetch::ReadChar()
+{
+   if (iTypeAheadLength > 0)
     {// Something buffered up (happens when app calls GetLine() with nullptr), return it
         char retval = *iTypeAhead;
         memcpy(iTypeAhead, iTypeAhead + 1, --iTypeAheadLength);
@@ -457,8 +454,8 @@ int ScopedGetch::ReadChar()
         }
     }
     return 0;
-#endif
 }
+#endif
 
 int ScopedGetch::ReadCmd()
 {// Reads some escape sequenes into named keys
@@ -502,7 +499,7 @@ void ScopedGetch::ReadLine( char* buf, size_t buflen)
 	{
 		Test( result = fgets( &iTypeAhead[ iTypeAheadLength], 64-iTypeAheadLength, stdin));
 		if( result)
-			iTypeAheadLength += (int) strlen( result);
+			iTypeAheadLength += strli( result);
 	}
 
 //		Return to single characer mode
@@ -519,11 +516,8 @@ int xatoi( const char* s)
     char* done;
     errno = 0;
     int64 checkval = strtoll( s, &done, 10);
-    if( sizeof( int64) > sizeof( int))
-    {
-        if( (done != s + strlen( s)) || (checkval > INT_MAX) || (checkval < INT_MIN) || (errno != 0))
-            xraise( "Value is not an integer", "str value", s, NULL);
-    }
+    if( (done != s + strlen( s)) || (checkval > INT_MAX) || (checkval < INT_MIN) || (errno != 0))
+        xraise( "Value is not an integer", "str value", s, NULL);
     return (int) checkval;
 }
 
@@ -533,11 +527,8 @@ int64 xatoint64( const char* s)
     errno = 0;
 	int64 checkval = strtoll( s, &done, 10);
 
-    if( sizeof(int64) > sizeof( int))
-    {
-        if( (done != s + strlen( s)) || (errno != 0))
-            xraise( "Value is not an integer", "str value", s, NULL);
-    }
+    if( (done != s + strlen( s)) || (errno != 0))
+        xraise( "Value is not an integer", "str value", s, NULL);
     return checkval;
 }
 
@@ -545,7 +536,7 @@ double xatof( const char* s)
 {
     char* done;
     errno = 0;
-    double checkval = strtold( s, &done);
+    double checkval = strtod( s, &done);
         if( (done != s + strlen( s)) || (errno != 0))
             xraise( "Value is not a number", "str value", s, NULL);
     return checkval;
@@ -638,7 +629,7 @@ double ConvertTimeToSeconds( const char* curArg)
 #include <iomanip>
 #include <sstream>
 
-extern "C" char* strptime(
+extern "C" const char* strptime(
     const char* s,
     const char* f,
     struct tm* tm)
@@ -656,7 +647,7 @@ extern "C" char* strptime(
     if (input.fail()) {
         return nullptr;
     }
-    return (char*)(s + input.tellg());
+    return s + static_cast<std::streamoff>(input.tellg());
 }
 #endif
 
@@ -682,7 +673,7 @@ time_t xatot(const char* datetimeString)
 	else
 		strncpy( scrap, datetimeString, 254);
     struct tm tmStruct;
-    if( strptime(scrap, "%Y-%m-%d %H:%M:%S", &tmStruct) < &datetimeString[ 10])
+    if( strptime(scrap, "%Y-%m-%d %H:%M:%S", &tmStruct) < &scrap[ 10])
 		xraise( "Date/Time should be of form YY-MM-DD hh:mm:ss", "str received", datetimeString, nullptr);
 	rawtime = mktime( &tmStruct);
 	return rawtime;
@@ -696,13 +687,13 @@ public:
 	char iName[ 4];
 	char* sname( int* len)
 	{
-		if( len) *len = (int) strlen( iName);
+		if( len) *len = strli( iName);
 		return iName;
 	}
 	
-	char* dname( int* len, int whatIsThisFor)
+	char* dname( int* len, int)
 	{
-		if( len) *len = (int) strlen( iName);
+		if( len) *len = strli( iName);
 		return iName;
 	}
 	
@@ -732,7 +723,7 @@ double PitchToFreq( const char* arg)
 		for( int scale = 0; scale < CountItems( allNotes); ++scale)
 		{
 			double myfreq = pow( 2.0, -9.0/12.0) * (a4 / 16.0);		// C0, first note
-			for( int octave = 0; octave < 9; octave++)
+			for( char octave = 0; octave < 9; octave++)
 			{
 				for( int n = 0; n < CountItems( notess); n++)
 				{
@@ -742,7 +733,7 @@ double PitchToFreq( const char* arg)
 					strcpy( name, allNotes[ scale][ n]);
 					o[ 0] = octave + '0';
 					strcat( name, o);
-					if( !sNoteList.lookup( name, (int) strlen( name)))
+					if( !sNoteList.lookup( name, strli( name)))
 					{// This is not a duplicate, we we can add it to the list.
 					  // Skips duplicates that exist in both the sharp list and the flat list.
 						note_t* nn = new note_t( name, myfreq);
@@ -753,7 +744,7 @@ double PitchToFreq( const char* arg)
 			}
 		}
 	}
-	note_t* thisNote = sNoteList.lookup( arg, (int) strlen( arg));
+	note_t* thisNote = sNoteList.lookup( arg, strli( arg));
 	if( thisNote)
 		return thisNote->iFreq;
 	return ConvertAsciiToFloat( arg);
@@ -1282,8 +1273,8 @@ static int AppendOpts(
 {
 	if( sourceOptions == nullptr)
 		return 0;
-	int oldLength = (int) strlen( destOptions);
-	int addLength = (int) strlen( sourceOptions);
+	int oldLength = strli( destOptions);
+	int addLength = strli( sourceOptions);
 	strcpy( &destOptions[ oldLength], sourceOptions);
 	void** destValuesReally = (void**) destValues;
 	memcpy( &destValuesReally[ oldLength], sourceValues, addLength * sizeof( void*));
@@ -1367,7 +1358,7 @@ int GetAllOpts(		// Concatenates options
 		{
 			if( opts[ opt]->paramOpts)
 			{// This one has parameters
-				int numOfSrcHelps = (int) strlen( opts[ opt]->paramOpts);
+				int numOfSrcHelps = strli( opts[ opt]->paramOpts);
 				strcat( combinedParamOpts, opts[ opt]->paramOpts);	// Best if only ONE entry, the last one, has any
 				memcpy( &combinedHelpMessage[ numOfCombinedHelps], &opts[ opt]->helpMessage[ posOfNextHelp[ opt]], numOfSrcHelps *sizeof( char*));
 				posOfNextHelp[ opt] += numOfSrcHelps;
@@ -1622,7 +1613,7 @@ char* EditableCommandLine::ProcessOneCharacter( int readCh)
    for (p; *p != 0; ++p)
     count += ((*p & 0xc0) != 0x80);
 */
-    int cmdLen = (int) strlen( cmdLine);
+    int cmdLen = strli( cmdLine);
     if( utfBytesLeft == 0)
     {// Not building a UTF string, these are the same
         utfPos = pos;
@@ -1664,7 +1655,7 @@ char* EditableCommandLine::ProcessOneCharacter( int readCh)
                 strncpy( cmdLine, temporaryLastLine.c_str(), len);
             else
                 strncpy( cmdLine, cmdLineHistory[ arrowPos].c_str(), len);
-            cmdLen = (int) strlen( cmdLine);
+            cmdLen = strli( cmdLine);
             pos = cmdLen;
             printf( "\n%s %.*s\033" "7%s\033" "8", prompt, pos, cmdLine, &cmdLine[ pos]); fflush( stdout);
         }
@@ -1678,8 +1669,8 @@ char* EditableCommandLine::ProcessOneCharacter( int readCh)
             }
             --arrowPos;
             strncpy( cmdLine, cmdLineHistory[ arrowPos].c_str(), len);
-            pos = (int) strlen( cmdLine);
-            cmdLen = (int) strlen( cmdLine);
+            pos = strli( cmdLine);
+            cmdLen = strli( cmdLine);
             printf( "\n%s %.*s\033" "7%s\033" "8", prompt, pos, cmdLine, &cmdLine[ pos]); fflush( stdout);
         }
         break;
@@ -1712,7 +1703,7 @@ char* EditableCommandLine::ProcessOneCharacter( int readCh)
         {// Something to do, remember this.  (We don't remember blank lines, but do return them)
             cmdLineHistory.push_back( cmdLine);
             pos = 0;
-            arrowPos = (int) cmdLineHistory.size();           // Reset to last command
+            arrowPos = cmdLineHistory.size();           // Reset to last command
         }
         return cmdLine;
         break;
@@ -1723,7 +1714,7 @@ char* EditableCommandLine::ProcessOneCharacter( int readCh)
     default:
         memcpy( &cmdLine[ pos+1], &cmdLine[ pos], len - pos);
         ++cmdLen;      // We cached string length earlier
-        cmdLine[ pos++] = readCh;
+        cmdLine[ pos++] = (char) readCh;
         if( utfBytesLeft)
         {// Working off a UTF8 thing
             --utfBytesLeft;
@@ -1759,7 +1750,7 @@ char* EditableCommandLine::ProcessOneCharacter( int readCh)
 			}
             else
             {// Character width is one, display it and back up a letter
-                printf( "\0337%s\0338\033[C", &cmdLine[ utfPos]);
+                printf( "\033" "7%s\033" "8\033[C", &cmdLine[ utfPos]);
                 fflush( stdout);
             }
         }

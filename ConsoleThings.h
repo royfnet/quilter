@@ -223,10 +223,9 @@ void DoHelp(
 class EditableCommandLine
 {
     char cmdLine[ 512] = {0};    // Command line read asynchrounously
-    int readCh = 'R'-64;         // Character reseult
     static std::vector<std::string> cmdLineHistory;
     std::string temporaryLastLine;
-    int arrowPos = (int) cmdLineHistory.size();           // Position in cmdLineHistory for uparrow/downarrow
+    size_t arrowPos = (int) cmdLineHistory.size();           // Position in cmdLineHistory for uparrow/downarrow
     int pos = 0;            // Byte position to insert in cmdLine
     int utfBytesLeft = 0;   // Working out a UTF8 multibyte
     int utfPos = 0;         // Position of first byte of UTF8  multibyte
