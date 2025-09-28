@@ -29,7 +29,7 @@ static char* SkipTokenStuff( char* pos)
 		)
 	)
 	{// Convert to upper case and move on
-		if( !sPreserveCase) *pos = toupper( *pos);
+		if( !sPreserveCase) *pos = toupper_c( *pos);
 		++pos;
 	}
 	return pos;
@@ -398,11 +398,8 @@ bool batoi( char *s, int *result)
     errno = 0;
     s = SkipWhitespace( s);
     int64 checkval = strtoll( s, &done, 10);
-    if( sizeof( int64) > sizeof( int))
-    {
-        if( (done == s) || (checkval > INT_MAX) || (checkval < INT_MIN) || (errno != 0))
-            return false;
-    }
+    if( (done == s) || (checkval > INT_MAX) || (checkval < INT_MIN) || (errno != 0))
+        return false;
     *result = (int) checkval;
     return true;
 }

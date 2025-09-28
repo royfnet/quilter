@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "ConsoleThings.h"
 #include <time.h>
 #include <filesystem>
@@ -16,34 +15,8 @@
 #include <io.h>
 #endif
 
-void EndianSwap( void* thing, size_t size)
-{// Variable sized endian swapper for any data type
-	char* t = (char*) thing;
-	for( size_t i = 0; i < size/2; ++i )
-	{
-		char temp = t[ i];
-		t[ i] = t[ size-i-1];
-		t[ size-i-1] = temp;
-	}
-}
-
-const char* ctim( time_t tv)
-{// essentially ctime() without the stupid terminating newline
- // but also uses a 4-entry ring buffer so you can have four simultaniously active time buffers
- // Still not thread safe 'cause sTimeBufPos is not atomic.
-	static char sTimeBuffer[ 4][26];
-	static int sTimeBufPos = 0;
-#if WINCODE
-	char* retval = sTimeBuffer[sTimeBufPos];
-	ctime_s(sTimeBuffer[sTimeBufPos++], 26, &tv);
-#else
-    char* retval = ctime_r( &tv, sTimeBuffer[sTimeBufPos++]);
-#endif
-    Test( retval);
-    retval[ strlen( retval)-1]=0;
-    sTimeBufPos &= 3;
-    return retval;
-}
+// Required by xcode.h
+const char* versionString = "1.2.0 " __DATE__ " " __TIME__;
 
 std::string DocumentsPath()
 {// Returns path to user's documents
@@ -164,13 +137,13 @@ void FGetLine( char* buffer, size_t len, FILE* f)
 			buffer[0] = 0;
 			break;
 		}
-		char ch = getc( f);
+		int ch = getc( f);
 		if( ch == 10 || ch == 13)
 		{// Allow tetminate on either.  Clients should expect blank lines if input uses crlf.
 			buffer[ pos] = 0;
 			break;
 		}
-		buffer[ pos++] = ch;
+		buffer[ pos++] = (char) ch;
 	}
 }
 
@@ -250,7 +223,7 @@ int SetCmd( CommandProc* cur)
 	{// Set in pairs
 		int selection = 0;
 		int matchCount = 0;
-		int matchLen = (int) strlen( cur->iArgv[ paramIndex]);
+		int matchLen = strli( cur->iArgv[ paramIndex]);
 		std::string matches;
 		for( int sel = 0; sel < CountItems( defaultValueNames); ++sel)
 		{// search for unique abbreviation
@@ -481,7 +454,7 @@ int TestCmd( CommandProc* cur)
         uint32_t wbuf[ 512];
         ConsoleGetLine( "X to exit>", buf, 512);
         printf( "%s\n", buf);
-        for( int c = 0; c < strlen( buf); ++c) printf( "0x%x ", (int)(unsigned char) buf[ c]);
+        for( int c = 0; c < strli( buf); ++c) printf( "0x%x ", (int)(unsigned char) buf[ c]);
         printf( "\n");
         decode_utf8_to_utf32( wbuf, (unsigned char*) buf);
         for( int c = 0; wbuf[c]!=0; ++c)
@@ -554,8 +527,8 @@ int RunCmd( CommandProc* cur)
 			SplitCommandLine( scrap, &ac, av, CountItems( av));
 			if( ac > 0)
 			{// this line isn't logically blank, dispatch on it
-				CommandProc cur( ac, av);
-				result = Dispatch( &cur, cmds, rtns);
+				CommandProc newcur( ac, av);
+				result = Dispatch( &newcur, cmds, rtns);
 				if( result == 2)
 					break;
 			}
@@ -666,8 +639,8 @@ public:
     
     void Execute() override
     {// Process most recent charactere if there is one, and queue up reading the next
-		char* cmdLine = ProcessOneCharacter( readCh);
-		if( cmdLine)
+		char* commandLine = ProcessOneCharacter( readCh);
+		if( commandLine)
 		{
 			delete gch;			// Run command line in normal mode
 			gch = nullptr;
@@ -675,9 +648,9 @@ public:
             {
                 char* av[64];
                 int ac = 0;
-                if( *cmdLine)
+                if( *commandLine)
                 {// Something to do
-                    SplitCommandLine( cmdLine, &ac, av, CountItems( av));
+                    SplitCommandLine( commandLine, &ac, av, CountItems( av));
                     if( ac != 0)
                     {
                         CommandProc cur( ac, av);
@@ -693,7 +666,7 @@ public:
             {
                 printf( "Don't know why it failed\n");
             }
-            *cmdLine = 0;
+            *commandLine = 0;
             if( result == 2)
             {// Exiting, mark it so
 				exiting = true;

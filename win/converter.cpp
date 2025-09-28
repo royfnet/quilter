@@ -158,7 +158,7 @@ static size_t encode_utf8(codepoint_t codepoint, utf8_t* utf8, size_t len, size_
     // Write the continuation bytes in reverse order first
     for (int cont_index = size - 1; cont_index > 0; cont_index--)
     {
-        utf8_t cont = codepoint & ~UTF8_CONTINUATION_MASK;
+        utf8_t cont = (utf8_t)(codepoint & ~UTF8_CONTINUATION_MASK);
         cont |= UTF8_CONTINUATION_VALUE;
 
         utf8[index + cont_index] = cont;
@@ -168,7 +168,7 @@ static size_t encode_utf8(codepoint_t codepoint, utf8_t* utf8, size_t len, size_
     // Write the leading byte
     utf8_pattern pattern = utf8_leading_bytes[size - 1];
 
-    utf8_t lead = codepoint & ~(pattern.mask);
+    utf8_t lead = (utf8_t)(codepoint & ~(pattern.mask));
     lead |= pattern.value;
 
     utf8[index] = lead;
@@ -296,7 +296,7 @@ static size_t encode_utf16(codepoint_t codepoint, utf16_t* utf16, size_t len, si
 
     if (codepoint <= BMP_END)
     {
-        utf16[index] = codepoint;
+        utf16[index] = (utf16_t) codepoint;
         return 1;
     }
 

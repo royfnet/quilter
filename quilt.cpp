@@ -71,7 +71,7 @@ public:
 		WriteInt( 0);
 		WriteInt( 0);
 		WriteInt( 4);
-		WriteInt( (int) strlen( name));
+		WriteInt( strli( name));
 		fwrite( name, strlen( name), 1, iqpFile);
 		WriteInt( 7);
 		iqpPairCountPos = ftell( iqpFile);
