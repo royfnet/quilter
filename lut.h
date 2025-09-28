@@ -416,7 +416,7 @@ template< class THING> THING *lut<THING>::lookup_a(	// Returns matching member, 
 	const char* symbol,		// Unambiguous match
 	int &countParam)		// Returned count of matches, or match length
 {
-	return lookup_a( symbol, strlen( symbol), countParam);
+	return lookup_a( symbol, (int) strlen( symbol), countParam);
 }
 
 template< class THING> void lut<THING>::selftest( void)	// test an object

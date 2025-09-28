@@ -46,8 +46,6 @@ size_t ReadFile(FILE *fp, char **buf);
 void AsyncGetLine( char* buffer, size_t len, FILE* f, JeffSemaphore &completionSema, bool* ready);
 void FGetLine( char* buffer, size_t len, FILE* f);
 void AddActivity( AsyncHelper* newActivity);	// Adds to list of asynchronous activities
-void EndianSwap( void* thing, size_t size);
-const char* ctim( time_t tv);
 std::string DocumentsPath();
 std::string SettingsPath();
 std::string ActivityUniqueString();
