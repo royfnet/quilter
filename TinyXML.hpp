@@ -58,9 +58,9 @@ public:
 	XmlScopeSingleLine( XmlScopeSingleLine &xml, const char* tag, const char* parameters=nullptr, bool selfTermimate=false);	// Scope of tag must be longer than this object
 	virtual void CloseTag();
 	virtual ~XmlScopeSingleLine();
-	void WriteATag( const char* tag, const char* value, size_t len = INT32_MAX);
+	void WriteATag( const char* tag, const char* value, int len = INT32_MAX);
 	void PrintfATag( const char* tag, const char* format, ...);
-	void WriteATagWithParams( const char* tag, const char* parameters, const char* value, size_t len = INT32_MAX);
+	void WriteATagWithParams( const char* tag, const char* parameters, const char* value, int len = INT32_MAX);
 	void PrintfATagWithParams( const char* tag, const char* parameters, const char* format, ...);
 	inline std::ostringstream& s() const
 	{// Access to the stream for content

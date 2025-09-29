@@ -29,9 +29,9 @@ typedef uint16_t utf16_t; // The type of a single UTF-16 character
  * Otherwise, the number of characters written to the utf8 buffer.
  * 
  */
-size_t utf16_to_utf8(
-    utf16_t const* utf16, size_t utf16_len, 
-    utf8_t* utf8,         size_t utf8_len
+int utf16_to_utf8(
+	utf16_t const* utf16, int utf16_len, 
+	utf8_t* utf8,		  int utf8_len
 );
 
 /*
@@ -59,7 +59,7 @@ size_t utf16_to_utf8(
  * 16-bit characters.
  * 
  */
-size_t utf8_to_utf16(
-    utf8_t const* utf8, size_t utf8_len, 
-    utf16_t* utf16,     size_t utf16_len
+int utf8_to_utf16(
+	utf8_t const* utf8, int utf8_len, 
+	utf16_t* utf16,		int utf16_len
 );

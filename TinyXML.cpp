@@ -1,10 +1,10 @@
 //
-//  TinyXML.cpp
+//	TinyXML.cpp
 //
 //	A tiny XML parser suitable for reading iXML metadata in .WAV files.
 //
-//  Created by Jeffrey Lomicka on 7/7/18.
-//  Copyright © 2018,2025 Jeffrey Lomicka. All rights reserved.
+//	Created by Jeffrey Lomicka on 7/7/18.
+//	Copyright © 2018,2025 Jeffrey Lomicka. All rights reserved.
 //
 
 #include "xraise.h"
@@ -50,7 +50,7 @@ static char* SkipQuotedString( char* pos)
 
 static char* SkipEverythingUntil( char* pos, const char* delimiter)
 {// Skips ahead to delimited given, but allows the delimiter within quotes
-	size_t dlen = strlen( delimiter);
+	int dlen = strli( delimiter);
 	while( *pos && strncmp( pos, delimiter, dlen) != 0)
 	{
 		if( *pos == '"' || *pos == '\'')
@@ -108,7 +108,7 @@ static char* SkipEverythingUntilButLeaveBehind( char* pos, char delimiter, char 
 bool SkipEverythingUntil( char* &pos, char delimiter1, const char* delimiter2)
 {// Skips until the first one of the pair. "pos" is updated in place
 	bool retval = false;		// True means we matched delimter2, False delimter1 or end of string
-	size_t dlen = strlen( delimiter2);
+	int dlen = strli( delimiter2);
 	pos = SkipWhitespace( pos);
 	while( *pos && *pos != delimiter1 && strncmp( pos, delimiter2, dlen) != 0)
 	{
@@ -118,7 +118,7 @@ bool SkipEverythingUntil( char* &pos, char delimiter1, const char* delimiter2)
 	}
 	if( *pos)
 	{// Got one, terminate the thing we are parsing and skip over the delimiter
-		retval = (strncmp( pos, delimiter2, dlen) == 0);	// True  means delimtier 2
+		retval = (strncmp( pos, delimiter2, dlen) == 0);	// True	 means delimtier 2
 		*pos = 0;	// Nullify and skip the delimiter
 		if( retval) pos += dlen; else ++pos;
 	}
@@ -144,11 +144,11 @@ static char* SkipComment( char* pos)
 char* TinyXml::Initialize( char* pos, const char* parentKeyword /* == nullptr */)
 {// Recursively initialize a TinyXML thing.
  // BEWARE! the caracter string passed IS modified, terminating nuls are scattered througought,
- // and must have a lifetime that exceeds this object, as we keep pointers into it.  It is NOT
+ // and must have a lifetime that exceeds this object, as we keep pointers into it.	 It is NOT
  // copied.
 	pos = SkipWhitespace( pos);
 	pos = SkipEverythingUntil( pos, '<');
-	while( *pos == '!')	// Should probably be all non-token characters
+	while( *pos == '!') // Should probably be all non-token characters
 	{// A comment or a script.
 		pos = SkipComment( pos);
 		pos = SkipEverythingUntil( pos, '<');
@@ -163,7 +163,7 @@ char* TinyXml::Initialize( char* pos, const char* parentKeyword /* == nullptr */
 	char* keyworedEnd = pos;
 	pos = SkipWhitespace( pos);
 	iMyParameters = pos;
-	iSelfTerminated = SkipEverythingUntil( pos, '>', "/>");	//Updates 'pos', handles self-terminated case
+	iSelfTerminated = SkipEverythingUntil( pos, '>', "/>"); //Updates 'pos', handles self-terminated case
 	*keyworedEnd = 0;
 
 	#ifdef TOUCHSTONE
@@ -231,7 +231,7 @@ char* TinyXml::Initialize( char* pos, const char* parentKeyword /* == nullptr */
 				{// This is my parent's closer, mine is missing
 					// Uncomment these fprintf's if you want malform XML diagnostics
 					//fprintf( stderr, "Unbalenced tokens, %s closed by parent /%s\n", iMyKeyword, myCloser);
-					*myCloserEnd = '>';	// Put this back
+					*myCloserEnd = '>'; // Put this back
 					return myCloser-1;	// Let parent close itself
 				}
 				//fprintf( stderr, "Unbalenced tokens, %s closed by /%s\n", iMyKeyword, myCloser);
@@ -283,8 +283,8 @@ bool CompareKeywordLists( const keywordPair_t* partialKeywordList, const keyword
 			return true;
 		}
 		if( fullKeywordList == nullptr)
-		{// Ran out of full list with still more to go in the partial list.  This shouldn't happen,
-		 // but it means we don't have a match.  Considered making this return true, as it would malke
+		{// Ran out of full list with still more to go in the partial list.	 This shouldn't happen,
+		 // but it means we don't have a match.	 Considered making this return true, as it would malke
 		 // the two parameters symmetrical in behavior, but I think false is the correct semantic here.
 			return false;
 		}
@@ -322,7 +322,7 @@ bool TinyXml::InquireByKeyword( const keywordPair_t* keywordList, char** returne
  //
  // returnedValue is a direct pointer in the content, don't write back to it!
 	if( iMyKeyword == nullptr)
- 		return false;	// We are not initialized
+		return false;	// We are not initialized
 	InquiryContext_t context = {keywordList, returnedParameters, returnedValue};
 	return !IterateOverCcontent( &context, InquiryFinder, nullptr);
 }
@@ -333,7 +333,7 @@ bool TinyXml::InquireByKeyword( char** returnedParameters, char** returnedValue,
  // Don't forget to add a trailing nullptr at the end of your parameter list or weird things will happen
  // Note you don't need all of the top levels.
 	if( iMyKeyword == nullptr)
- 		return false;	// We are not initialized
+		return false;	// We are not initialized
 	va_list vl;
 	va_start(vl,returnedValue);
 	const keywordPair_t* nextParent = nullptr;
@@ -366,7 +366,7 @@ bool TinyXml::InquireByKeyword( char** returnedParameters, char** returnedValue,
 bool TinyXml::IterateOverCcontent( void* context, ContentHandler_t handler, const keywordPair_t* parent)
 {// Calls the handler for each terminus keyword. Stops iterating if hander returns false
 	if( iMyKeyword == nullptr)
- 		return false;	// We are not initialized
+		return false;	// We are not initialized
 	keywordPair_t mykey;
 	mykey.iParent = parent;
 	mykey.keyword = iMyKeyword;
@@ -394,24 +394,24 @@ bool TinyXml::IterateOverCcontent( void* context, ContentHandler_t handler, cons
 #if 1
 bool batoi( char *s, int *result)
 {// A version of atoi that returns if it was successful or not
-    char* done;
-    errno = 0;
-    s = SkipWhitespace( s);
-    int64 checkval = strtoll( s, &done, 10);
-    if( (done == s) || (checkval > INT_MAX) || (checkval < INT_MIN) || (errno != 0))
-        return false;
-    *result = (int) checkval;
-    return true;
+	char* done;
+	errno = 0;
+	s = SkipWhitespace( s);
+	int64 checkval = strtoll( s, &done, 10);
+	if( (done == s) || (checkval > INT_MAX) || (checkval < INT_MIN) || (errno != 0))
+		return false;
+	*result = (int) checkval;
+	return true;
 }
 
 bool batoll( char *s, int64 *result)
 {// A version of atoi that returns if it was successful or not
-    char* done;
-    errno = 0;
-    s = SkipWhitespace( s);
-    int64 checkval = strtoll( s, &done, 10);
-    *result = checkval;
-    return true;
+	char* done;
+	errno = 0;
+	s = SkipWhitespace( s);
+	int64 checkval = strtoll( s, &done, 10);
+	*result = checkval;
+	return true;
 }
 
 char* Sanitize( char* pos)
@@ -427,7 +427,7 @@ char* Sanitize( char* pos)
 	{// Not quoted, skip printables skipping spaces, tabs, newlines, and other control characters
 	 // The trick here is to allow spaces inside the string, but trailing spaces are removed
 		pos = tail;
-	 	tail = pos + strlen( pos);
+		tail = pos + strlen( pos);
 		while( tail > pos)
 		{// For all whitespace characters at the end
 			--tail;
@@ -483,7 +483,7 @@ void TinyXml::SetPreserveCase( bool preserve)
 {// Warning, this is currenlty a static setting
 	sPreserveCase = preserve;
 }
-//     Output routines
+//	   Output routines
 
 
 XmlScopeSingleLine::XmlScopeSingleLine( const char* tag, const char* parameters)	// Scope of tag must be longer than this object
@@ -578,7 +578,7 @@ XmlScope::~XmlScope()
 // Used to indent-format the iXML, this group of XML helper routines is not thread safe, which may be an issue
 // in the future if you attempt to multi-thread bin saves or the closing out of multiple channels in media files.
 
-void XmlScopeSingleLine::WriteATagWithParams( const char* tag, const char* params, const char* value, size_t len)
+void XmlScopeSingleLine::WriteATagWithParams( const char* tag, const char* params, const char* value, int len)
 {// Use this for simple tags that don't contain sub-tags, and optionally length limited
 	XmlScopeSingleLine thisTag( *this, tag, params);
 
@@ -602,7 +602,7 @@ void XmlScopeSingleLine::WriteATagWithParams( const char* tag, const char* param
 		++value;
 	}
 }
-void XmlScopeSingleLine::WriteATag( const char* tag, const char* value, size_t len)
+void XmlScopeSingleLine::WriteATag( const char* tag, const char* value, int len)
 {
 	WriteATagWithParams( tag, nullptr, value, len);
 }
@@ -736,7 +736,7 @@ void WriteOut( TinyXml* inXml, FILE* outFile)
 char* PullValueFromParams( char* pos, const char* key)
 {// Key should include '=' sign. Returns newly allocated string and transfers ownership
  // Note it isn't at all careful about aliasing keys in quoted strings. Just a hack that happens
- // to work as long as the key  with '=' sign doesn't appear elsewhere.
+ // to work as long as the key	with '=' sign doesn't appear elsewhere.
 	if( pos == nullptr)
 		return pos;
 	pos = strstr( pos, key);
@@ -746,7 +746,7 @@ char* PullValueFromParams( char* pos, const char* key)
 	char quote = *pos;				// Remember the quote character
 	char* startpos = ++pos;			// Skip the open quote
 	while( *pos && *pos++ != quote);	// Skip to the close quote
-	size_t len = (pos - startpos);
+	int len = (int)(pos - startpos);
 	char* retval = new char[  len];
 	memcpy( retval, startpos, len);
 	retval[ len-1] = 0;
@@ -782,13 +782,13 @@ char* TinyXml::InitializeFromJSON( char* pos, const char* parentKeyword)
 {
 // Recursively initialize a TinyXML thing.
  // BEWARE! the caracter string passed IS modified, terminating nuls are scattered througought,
- // and must have a lifetime that exceeds this object, as we keep pointers into it.  It is NOT
+ // and must have a lifetime that exceeds this object, as we keep pointers into it.	 It is NOT
  // copied.
-    if( !iMyKeyword)
-    {
-        iMyKeyword = "root";
-        iMyParameters = &emptyString;
-    }
+	if( !iMyKeyword)
+	{
+		iMyKeyword = "root";
+		iMyParameters = &emptyString;
+	}
 	pos = SkipWhitespace( pos);		// BUG this allows XML comments
 	if( *pos == 0)
 	{// I guess we're done
@@ -805,9 +805,9 @@ char* TinyXml::InitializeFromJSON( char* pos, const char* parentKeyword)
 				break;		// End of list
 			}
 			iXmlContent.push_back( new TinyXml());
-            iXmlContent[ index]->iMyIndex = index;
-            iXmlContent[ index]->iMyKeyword = "Array-Element";
-            iXmlContent[ index]->iMyParameters = &emptyString;
+			iXmlContent[ index]->iMyIndex = index;
+			iXmlContent[ index]->iMyKeyword = "Array-Element";
+			iXmlContent[ index]->iMyParameters = &emptyString;
 			pos = iXmlContent[ index]->InitializeFromJSON( pos, iMyKeyword);
 			++index;
 			pos = SkipWhitespace( pos);
@@ -828,7 +828,7 @@ char* TinyXml::InitializeFromJSON( char* pos, const char* parentKeyword)
 	{// I don't fully understand how '{' is different from '['
 	 // other than '[' are unnamed.
 		++pos;
-        for( int index = 0;;++index)
+		for( int index = 0;;++index)
 		{// add each item in the list
 			if(*pos == '}')
 			{
@@ -846,7 +846,7 @@ char* TinyXml::InitializeFromJSON( char* pos, const char* parentKeyword)
 			else if(*pos == '}')
 			{
 				*pos++ = 0;
-                Sanitize( iXmlContent[ index]->iMyContent);    // Temporary
+				Sanitize( iXmlContent[ index]->iMyContent);	   // Temporary
 				break;		// End of list
 			}
 			else
@@ -859,7 +859,7 @@ char* TinyXml::InitializeFromJSON( char* pos, const char* parentKeyword)
 		pos = SkipQuotedString( pos);
 		if( *pos)
 		{// Not done, Terminate the keyword and get contents
-            iMyParameters = pos;
+			iMyParameters = pos;
 			*pos++ = 0;
 			pos = SkipWhitespace( pos);
 			if( *pos != ':')

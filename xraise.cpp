@@ -25,7 +25,7 @@ bool noisy = false;		// Debugging logs
 
 bool frontcmp( const char* pattern, const char* s)
 {
-	size_t len = strlen( pattern);
+	int len = strli( pattern);
 	return 0 == strncmp( pattern, s, len);
 }
 
@@ -39,10 +39,10 @@ char toupper_c( char ch)
 	return (char) toupper( ch);
 }
 
-void EndianSwap( void* thing, size_t size)
+void EndianSwap( void* thing, int size)
 {// Variable sized endian swapper for any data type
 	char* t = (char*) thing;
-	for( size_t i = 0; i < size/2; ++i )
+	for( int i = 0; i < size/2; ++i )
 	{
 		char temp = t[ i];
 		t[ i] = t[ size-i-1];
@@ -65,12 +65,12 @@ const char* ctim( time_t tv)
 	char* retval = sTimeBuffer[sTimeBufPos];
 	ctime_s(sTimeBuffer[sTimeBufPos++], 26, &tv);
 #else
-    char* retval = ctime_r( &tv, sTimeBuffer[sTimeBufPos++]);
+	char* retval = ctime_r( &tv, sTimeBuffer[sTimeBufPos++]);
 #endif
-    Test( retval);
-    retval[ strlen( retval)-1]=0;
-    sTimeBufPos &= 3;
-    return retval;
+	Test( retval);
+	retval[ strlen( retval)-1]=0;
+	sTimeBufPos &= 3;
+	return retval;
 }
 
 
@@ -78,11 +78,11 @@ const char* ctim( time_t tv)
 
 void exexception::SetFileLine( const char* file, int line) const
 {
-    const char* filename = strrchr( file, '/');     // Strip off path, if there is one
-    if( filename == nullptr)
-        filename = file;    // There was no path
-    else
-        ++filename;         // There was a path, skip over the slash
+	const char* filename = strrchr( file, '/');     // Strip off path, if there is one
+	if( filename == nullptr)
+		filename = file;    // There was no path
+	else
+		++filename;         // There was a path, skip over the slash
 	snprintf( whatString, CountItems( whatString), "%s, file %s line %d", whatString, filename, line);
 }
 
@@ -192,17 +192,17 @@ void DisplayException( const std::exception &err)
 
 void TestFn( int status, const char* msg, const char* file, int line)
 {
-    if( status)
-    {
+	if( status)
+	{
 		if( status == -1)
 		{
 			status = errno;
 			if( msg == NULL) FileLine( file, line) + xraiseit( "Failure status code", "int status", status, "str error", strerror( status), NULL);
 			FileLine( file, line) + xraiseit( "Failure status code", "int status", status, "str error", strerror( status), "str action", msg,  NULL);
 		}
-        if( msg == NULL) FileLine( file, line) + xraiseit( "Failure status code", "int status", status, "str error", strerror(status), NULL);
-        FileLine( file, line) + xraiseit( "Failure status code", "int status", status, "str action", msg, "str error", strerror(status), NULL);
-    }
+		if( msg == NULL) FileLine( file, line) + xraiseit( "Failure status code", "int status", status, "str error", strerror(status), NULL);
+		FileLine( file, line) + xraiseit( "Failure status code", "int status", status, "str action", msg, "str error", strerror(status), NULL);
+	}
 }
 
 void TestFn( void* status, const char* msg, const char* file, int line)

@@ -24,8 +24,11 @@
 #include <stdarg.h>
 #include <time.h>
 
-
-#define CountItems( a) int(sizeof( a)/sizeof( (a)[0]))
+#ifdef _countof
+#define CountItems(a) ((int)_countof(a))
+#else
+#define CountItems(a) ((int)(sizeof(a)/sizeof((a)[0])))
+#endif
 #define SUCCESS 1
 
 typedef long long int64;
@@ -35,7 +38,7 @@ extern bool noisy;		// Used to key debugging logs
 		Utility routines
 */
 bool frontcmp( const char* pattern, const char* s);
-void EndianSwap( void* thing, size_t size);
+void EndianSwap( void* thing, int size);
 char tolower_c( char ch);
 char toupper_c( char ch);
 int strli( const char* s);		// Integer version of strlen
