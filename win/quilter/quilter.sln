@@ -5,6 +5,57 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "quilter", "quilter.vcxproj", "{66D90343-70A2-4AB1-BFE5-4D6521B503D6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\.gitignore = ..\..\.gitignore
+		..\..\quilter.md = ..\..\quilter.md
+		..\..\quilter.pdf = ..\..\quilter.pdf
+		..\..\README.md = ..\..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pthreads-w32", "pthreads-w32", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{6E88F159-515F-4C03-BE4E-62CDE576DC30}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\pthreads-w32\include\pthread.h = ..\..\pthreads-w32\include\pthread.h
+		..\..\pthreads-w32\include\sched.h = ..\..\pthreads-w32\include\sched.h
+		..\..\pthreads-w32\include\semaphore.h = ..\..\pthreads-w32\include\semaphore.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{6433B8CC-BD01-46EB-86D4-71FF82C99E16}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dll", "dll", "{950A0D44-544E-457C-8A54-E5E821C0E4FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "x86", "x86", "{57E0478B-A7EF-4E13-BA30-AB5333ED1CBE}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\pthreads-w32\dll\x86\pthreadGC2.dll = ..\..\pthreads-w32\dll\x86\pthreadGC2.dll
+		..\..\pthreads-w32\dll\x86\pthreadGCE2.dll = ..\..\pthreads-w32\dll\x86\pthreadGCE2.dll
+		..\..\pthreads-w32\dll\x86\pthreadVC2.dll = ..\..\pthreads-w32\dll\x86\pthreadVC2.dll
+		..\..\pthreads-w32\dll\x86\pthreadVCE2.dll = ..\..\pthreads-w32\dll\x86\pthreadVCE2.dll
+		..\..\pthreads-w32\dll\x86\pthreadVSE2.dll = ..\..\pthreads-w32\dll\x86\pthreadVSE2.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "x64", "x64", "{46072445-8689-47F9-995A-4A1F104BA89C}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\pthreads-w32\dll\x64\pthreadGC2.dll = ..\..\pthreads-w32\dll\x64\pthreadGC2.dll
+		..\..\pthreads-w32\dll\x64\pthreadVC2.dll = ..\..\pthreads-w32\dll\x64\pthreadVC2.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "x86", "x86", "{16ADE6F0-B2F4-4480-AB89-2129D7D7C0ED}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\pthreads-w32\lib\x86\libpthreadGC2.a = ..\..\pthreads-w32\lib\x86\libpthreadGC2.a
+		..\..\pthreads-w32\lib\x86\libpthreadGCE2.a = ..\..\pthreads-w32\lib\x86\libpthreadGCE2.a
+		..\..\pthreads-w32\lib\x86\pthreadVC2.lib = ..\..\pthreads-w32\lib\x86\pthreadVC2.lib
+		..\..\pthreads-w32\lib\x86\pthreadVCE2.lib = ..\..\pthreads-w32\lib\x86\pthreadVCE2.lib
+		..\..\pthreads-w32\lib\x86\pthreadVSE2.lib = ..\..\pthreads-w32\lib\x86\pthreadVSE2.lib
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "x64", "x64", "{025CCACE-9748-4338-902B-46B97B4695EF}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\pthreads-w32\lib\x64\libpthreadGC2.a = ..\..\pthreads-w32\lib\x64\libpthreadGC2.a
+		..\..\pthreads-w32\lib\x64\pthreadVC2.lib = ..\..\pthreads-w32\lib\x64\pthreadVC2.lib
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -24,6 +75,16 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}
+		{6E88F159-515F-4C03-BE4E-62CDE576DC30} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6433B8CC-BD01-46EB-86D4-71FF82C99E16} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{950A0D44-544E-457C-8A54-E5E821C0E4FB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{57E0478B-A7EF-4E13-BA30-AB5333ED1CBE} = {950A0D44-544E-457C-8A54-E5E821C0E4FB}
+		{46072445-8689-47F9-995A-4A1F104BA89C} = {950A0D44-544E-457C-8A54-E5E821C0E4FB}
+		{16ADE6F0-B2F4-4480-AB89-2129D7D7C0ED} = {6433B8CC-BD01-46EB-86D4-71FF82C99E16}
+		{025CCACE-9748-4338-902B-46B97B4695EF} = {6433B8CC-BD01-46EB-86D4-71FF82C99E16}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF183651-6388-428F-BC13-11270ED90578}

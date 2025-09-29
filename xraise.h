@@ -23,9 +23,11 @@
 #include <string.h>
 #include <stdarg.h>
 #include <time.h>
-
-
-#define CountItems( a) int(sizeof( a)/sizeof( (a)[0]))
+#ifdef _countof
+#define CountItems(a) ((int)_countof(a))
+#else
+#define CountItems(a) ((int)(sizeof(a)/sizeof((a)[0])))
+#endif
 #define SUCCESS 1
 
 typedef long long int64;
