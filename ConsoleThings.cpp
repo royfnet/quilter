@@ -82,47 +82,39 @@ int GetAllOpts(
 	const char* paramOpts, const char* const helpMessages[])// Param options are from "SFI.*" for string, float, integer, and uncounted
 {
 	MakeCommandLine( argc, argv);
-	bool displayHelp = false;
-	char badchoice[ 2] = {0};
-	char optstr[ 64];
-	char* o = optstr;
-	for( const char* s = boolOpts; s && *s; ++s)
-	{
-		*o++ = tolower_c( *s);
-		*o++ = toupper_c( *s);
-		*o++ = ':';
-	}
-	for( const char* s = strOpts; s && *s; ++s)
-	{
-		*o++ = *s;
-		*o++ = ':';
-	}
-	for( const char* s = floatOpts; s && *s; ++s)
-	{
-		*o++ = *s;
-		*o++ = ':';
-	}
-	for( const char* s = intOpts; s && *s; ++s)
-	{
-		*o++ = *s;
-		*o++ = ':';
-	}
-	for( const char* s = int64Opts; s && *s; ++s)
-	{
-		*o++ = *s;
-		*o++ = ':';
-	}
-
-	*o++ = 'h';
-	*o = 0;
-
-	opterr = 1;
-	optind = 1;
-	optreset = 1;
-
-	try
-	{
-		int optResult = 0;
+    bool displayHelp = false;
+    char badchoice[ 2] = {0};
+    char optstr[ 64];
+    char* o = optstr;
+    for( const char* s = boolOpts; s && *s; ++s)
+    {
+        *o++ = tolower_c( *s);
+        *o++ = toupper_c( *s);
+        *o++ = ':';
+    }
+    for( const char* s = strOpts; s && *s; ++s)
+    {
+        *o++ = *s;
+        *o++ = ':';
+    }
+    for( const char* s = floatOpts; s && *s; ++s)
+    {
+        *o++ = *s;
+        *o++ = ':';
+    }
+    for( const char* s = intOpts; s && *s; ++s)
+    {
+        *o++ = *s;
+        *o++ = ':';
+    }
+    for( const char* s = int64Opts; s && *s; ++s)
+    {
+        *o++ = *s;
+        *o++ = ':';
+    }
+    try
+    {
+        int optResult = 0;
 #if WINCODE
 		while( (optResult = getopt(argc, (const char**)(argv), optstr)) >= 0)
 #else
@@ -192,45 +184,45 @@ int GetAllOpts(
 			{
 				displayHelp = true;
 				goto break2;
-			}
+            }
 
-			badchoice[0] = (char) optopt;
-			xraise( "Option not recognized.	 Use -h to list available options.", "str option", badchoice, NULL);
+            badchoice[0] = (char) optopt;
+            xraise( "Option not recognized.  Use -h to list available options.", "str option", badchoice, NULL);
 
-			break2:;	// Success, get next option
-		}
+            break2:;    // Success, get next option
+        }
 
-		if( paramOpts && !displayHelp)
-		{// Parameter checking, but skip if display help
-			int requiredParams = strli( paramOpts);
-			if( strchr( paramOpts, '.'))
-			{// There are a minimum number of parameters, but could be much more
-				if( argc - optind < requiredParams-1)
-				{
-					printf( "The %s command requires at least %d parameters.\n", argv[ 0], requiredParams-1);
-					displayHelp = true;
-				}
-			}
-			else if( strchr( paramOpts, '*'))
-			{// There are a minimum number of parameters, the set of parameters are completely optional
-				if( argc - optind < requiredParams-2)
-				{
-					printf( "The %s command requires at least %d parameters.\n", argv[ 0], requiredParams-2);
-					displayHelp = true;
-				}
-			}
-			else
-			{
-			   if( argc - optind != requiredParams)
-				{
-					printf( "The %s command requires %d parameters.\n", argv[ 0], requiredParams);
-					displayHelp = true;
-				}
-			}
+        if( paramOpts && !displayHelp)
+        {// Parameter checking, but skip if display help
+            int requiredParams = strli( paramOpts);
+            if( strchr( paramOpts, '.'))
+            {// There are a minimum number of parameters, but could be much more
+                if( argc - optind < requiredParams-1)
+                {
+                    printf( "The %s command requires at least %d parameters.\n", argv[ 0], requiredParams-1);
+                    displayHelp = true;
+                }
+            }
+            else if( strchr( paramOpts, '*'))
+            {// There are a minimum number of parameters, the set of parameters are completely optional
+                if( argc - optind < requiredParams-2)
+                {
+                    printf( "The %s command requires at least %d parameters.\n", argv[ 0], requiredParams-2);
+                    displayHelp = true;
+                }
+            }
+            else
+            {
+               if( argc - optind != requiredParams)
+                {
+                    printf( "The %s command requires %d parameters.\n", argv[ 0], requiredParams);
+                    displayHelp = true;
+                }
+            }
 
-			// Validate parameter types
+            // Validate parameter types
 
-			char typeCode = 'S';
+            char typeCode = 'S';
 			int localOptInd = optind;
 			for( int a=0; a < requiredParams && localOptInd + a < argc; a++)
 			{// No need to check type code S
@@ -384,22 +376,21 @@ size_t ScopedGetch::ReadBuf( char* buf, int len)
 	}
 	else TestMsg( errno, strerror( errno));
 	return 0;
-}
 
 int ScopedGetch::ReadChar()
 {
-	for(;;)
-	{// Until we get something or time out
-		if( iTypeAheadLength > 0)
-		{// Something buffered up, return it
-			int retval = *iTypeAhead;
-			memcpy( iTypeAhead, iTypeAhead+1, --iTypeAheadLength);
-			return retval;
-		}
-		iTypeAheadLength = ReadBuf( iTypeAhead, CountItems( iTypeAhead));
-		if( iTypeAheadLength == 0)
-			return 0;
-	}
+    for(;;)
+    {// Until we get something or time out
+        if( iTypeAheadLength > 0)
+        {// Something buffered up, return it
+            int retval = *iTypeAhead;
+            memcpy( iTypeAhead, iTypeAhead+1, --iTypeAheadLength);
+            return retval;
+        }
+        iTypeAheadLength = (int) ReadBuf( iTypeAhead, CountItems( iTypeAhead));
+        if( iTypeAheadLength == 0)
+            return 0;
+    }
 }
 #endif
 #if WINCODE
@@ -407,53 +398,53 @@ int ScopedGetch::ReadChar()
  int ScopedGetch::ReadChar()
 {
    if (iTypeAheadLength > 0)
-	{// Something buffered up (happens when app calls GetLine() with nullptr), return it
-		char retval = *iTypeAhead;
-		memcpy(iTypeAhead, iTypeAhead + 1, --iTypeAheadLength);
-		return retval;
-	}
-	HANDLE eventHandles[] =
-	{
-		GetStdHandle(STD_INPUT_HANDLE)
-	// ... add more handles and/or sockets here
-	};
-	Test(eventHandles[0]);
-	DWORD result = WSAWaitForMultipleEvents(
-		(DWORD) (CountItems(eventHandles)),
-		&eventHandles[0],
-		(BOOL) FALSE,
-		(DWORD) 500,
-		(BOOL) TRUE
-	);
+    {// Something buffered up (happens when app calls GetLine() with nullptr), return it
+        char retval = *iTypeAhead;
+        memcpy(iTypeAhead, iTypeAhead + 1, --iTypeAheadLength);
+        return retval;
+    }
+    HANDLE eventHandles[] =
+    {
+        GetStdHandle(STD_INPUT_HANDLE)
+    // ... add more handles and/or sockets here
+    };
+    Test(eventHandles[0]);
+    DWORD result = WSAWaitForMultipleEvents(
+        (DWORD) (CountItems(eventHandles)),
+        &eventHandles[0],
+        (BOOL) FALSE,
+        (DWORD) 500,
+        (BOOL) TRUE
+    );
 
-	INPUT_RECORD record;
-	DWORD numRead = 0;
+    INPUT_RECORD record;
+    DWORD numRead = 0;
 
-	if( result == WSA_WAIT_EVENT_0)
-	{
-		Test( (bool) ReadConsoleInput( eventHandles[0], &record, 1, &numRead));
-		if (record.EventType == KEY_EVENT && record.Event.KeyEvent.bKeyDown)
-		{ // key up event, return the decoded character
-			if (record.Event.KeyEvent.uChar.UnicodeChar)
-			{
-				iTypeAheadLength = utf16_to_utf8((utf16_t*) & record.Event.KeyEvent.uChar.UnicodeChar, 1, (utf8_t*)iTypeAhead, CountItems(iTypeAhead));
-				return ReadChar();
-			}
-			if(record.Event.KeyEvent.uChar.AsciiChar)
-				return record.Event.KeyEvent.uChar.AsciiChar;
-			switch (record.Event.KeyEvent.wVirtualKeyCode)
-			{
-			case VK_UP: return kUpArrow;
-			case VK_DOWN: return kDownArrow;
-			case VK_LEFT: return kLeftArrow;
-			case VK_RIGHT: return kRightArrow;
-			case VK_DELETE: return kDelFwd;
-			default: break;
-			}
-			return 0;		// Other keys do nothing right now
-		}
-	}
-	return 0;
+    if( result == WSA_WAIT_EVENT_0)
+    {
+        Test( (bool) ReadConsoleInput( eventHandles[0], &record, 1, &numRead));
+        if (record.EventType == KEY_EVENT && record.Event.KeyEvent.bKeyDown)
+        { // key up event, return the decoded character
+            if (record.Event.KeyEvent.uChar.UnicodeChar)
+            {
+                iTypeAheadLength = (int) utf16_to_utf8((utf16_t*) & record.Event.KeyEvent.uChar.UnicodeChar, 1, (utf8_t*)iTypeAhead, CountItems(iTypeAhead));
+                return ReadChar();
+            }
+            if(record.Event.KeyEvent.uChar.AsciiChar)
+                return record.Event.KeyEvent.uChar.AsciiChar;
+            switch (record.Event.KeyEvent.wVirtualKeyCode)
+            {
+            case VK_UP: return kUpArrow;
+            case VK_DOWN: return kDownArrow;
+            case VK_LEFT: return kLeftArrow;
+            case VK_RIGHT: return kRightArrow;
+            case VK_DELETE: return kDelFwd;
+            default: break;
+            }
+            return 0;       // Other keys do nothing right now
+        }
+    }
+    return 0;
 }
 #endif
 
@@ -513,12 +504,12 @@ void ScopedGetch::ReadLine( char* buf, int buflen)
 
 int xatoi( const char* s)
 {
-	char* done;
-	errno = 0;
-	int64 checkval = strtoll( s, &done, 10);
-	if( (done != s + strlen( s)) || (checkval > INT_MAX) || (checkval < INT_MIN) || (errno != 0))
-		xraise( "Value is not an integer", "str value", s, NULL);
-	return (int)checkval;
+    char* done;
+    errno = 0;
+    int64 checkval = strtoll( s, &done, 10);
+    if( (done != s + strlen( s)) || (checkval > INT_MAX) || (checkval < INT_MIN) || (errno != 0))
+        xraise( "Value is not an integer", "str value", s, NULL);
+    return (int) checkval;
 }
 
 int64 xatoint64( const char* s)
@@ -527,19 +518,19 @@ int64 xatoint64( const char* s)
 	errno = 0;
 	int64 checkval = strtoll( s, &done, 10);
 
-	if( (done != s + strlen( s)) || (errno != 0))
-		xraise( "Value is not an integer", "str value", s, NULL);
-	return checkval;
+    if( (done != s + strlen( s)) || (errno != 0))
+        xraise( "Value is not an integer", "str value", s, NULL);
+    return checkval;
 }
 
 double xatof( const char* s)
 {
-	char* done;
-	errno = 0;
-	double checkval = strtod( s, &done);
-		if( (done != s + strlen( s)) || (errno != 0))
-			xraise( "Value is not a number", "str value", s, NULL);
-	return checkval;
+    char* done;
+    errno = 0;
+    double checkval = strtod( s, &done);
+        if( (done != s + strlen( s)) || (errno != 0))
+            xraise( "Value is not a number", "str value", s, NULL);
+    return checkval;
 }
 
 double ConvertAsciiToFloat( const char* curArg)
@@ -630,24 +621,24 @@ double ConvertTimeToSeconds( const char* curArg)
 #include <sstream>
 
 extern "C" const char* strptime(
-	const char* s,
-	const char* f,
-	struct tm* tm)
+    const char* s,
+    const char* f,
+    struct tm* tm)
 {
-	// Isn't the C++ standard lib nice? std::get_time is defined such that its
-	// format parameters are the exact same as strptime. Of course, we have to
-	// create a string stream first, and imbue it with the current C locale, and
-	// we also have to make sure we return the right things if it fails, or
-	// if it succeeds, but this is still far simpler an implementation than any
-	// of the versions in any of the C standard libraries.
-	std::istringstream input(s);
-	input.imbue(std::locale(setlocale(LC_ALL, nullptr)));
-	input >> std::get_time(tm, f);
-	//if (input.eof()) return (char*)(s + strlen(s));
-	if (input.fail()) {
-		return nullptr;
-	}
-	return s + static_cast<std::streamoff>(input.tellg());
+    // Isn't the C++ standard lib nice? std::get_time is defined such that its
+    // format parameters are the exact same as strptime. Of course, we have to
+    // create a string stream first, and imbue it with the current C locale, and
+    // we also have to make sure we return the right things if it fails, or
+    // if it succeeds, but this is still far simpler an implementation than any
+    // of the versions in any of the C standard libraries.
+    std::istringstream input(s);
+    input.imbue(std::locale(setlocale(LC_ALL, nullptr)));
+    input >> std::get_time(tm, f);
+    //if (input.eof()) return (char*)(s + strlen(s));
+    if (input.fail()) {
+        return nullptr;
+    }
+    return s + static_cast<std::streamoff>(input.tellg());
 }
 #endif
 
@@ -672,13 +663,12 @@ time_t xatot(const char* datetimeString)
 		snprintf( scrap, 254, "%s %02d:%02d:%02d", datetimeString, now.tm_hour, now.tm_min,now.tm_sec);
 	else
 		strncpy( scrap, datetimeString, 254);
-	struct tm tmStruct;
-	if( strptime(scrap, "%Y-%m-%d %H:%M:%S", &tmStruct) < &scrap[ 10])
+    struct tm tmStruct;
+    if( strptime(scrap, "%Y-%m-%d %H:%M:%S", &tmStruct) < &scrap[ 10])
 		xraise( "Date/Time should be of form YY-MM-DD hh:mm:ss", "str received", datetimeString, nullptr);
 	rawtime = mktime( &tmStruct);
 	return rawtime;
 }
-
 
 class note_t
 {
@@ -1613,70 +1603,70 @@ char* EditableCommandLine::ProcessOneCharacter( int readCh)
    for (p; *p != 0; ++p)
 	count += ((*p & 0xc0) != 0x80);
 */
-	int cmdLen = strli( cmdLine);
-	if( utfBytesLeft == 0)
-	{// Not building a UTF string, these are the same
-		utfPos = pos;
-	}
-	switch( readCh)
-	{
-	case 0: // Timeeout.  Neeed a veresion of ScopedGetch that doesn't time out
-		break;
-	case kLeftArrow:
-		if( pos > 0)
-		{
-			int glyphLen = UTF8TotalGlyphLength( (uint8_t*) cmdLine, pos-1, cmdLen, &pos);
-			if( glyphLen > 2)
-				DisplayPrompt();	// Might be a double wide
-			else
-			{
-				printf( "\033[D"); fflush( stdout);
-			}
-		}
-		break;
-	case kRightArrow:
-		if( pos < cmdLen)
-		{
-			int glyphLen = UTF8TotalGlyphLength( (uint8_t*) cmdLine, pos, cmdLen, &pos);
-			pos += glyphLen;
-			if( glyphLen > 2)
-				DisplayPrompt();	// Might be a double wide
-			else
-			{
-				printf( "\033[C"); fflush( stdout);
-			}
-		}
-		break;
-	case kDownArrow:
-		if( arrowPos < cmdLineHistory.size())
-		{
-			++arrowPos;
-			if( arrowPos < cmdLineHistory.size())
-				strncpy( cmdLine, cmdLineHistory[ arrowPos].c_str(), len);
-			else
-				strncpy( cmdLine, cmdLineHistory[ arrowPos].c_str(), len);
-			cmdLen = strli( cmdLine);
-			pos = cmdLen;
-			printf( "\n%s %.*s\033" "7%s\033" "8", prompt, pos, cmdLine, &cmdLine[ pos]); fflush( stdout);
-		}
-		break;
-	case kUpArrow:
-		if( arrowPos > 0)
-		{// Can't do anythnig if already at the top
-			if( arrowPos < cmdLineHistory.size())
-			{// Save this out to come back to it on downarrow if we don't take any of the previous commands
-				temporaryLastLine = cmdLine;
-			}
-			--arrowPos;
-			strncpy( cmdLine, cmdLineHistory[ arrowPos].c_str(), len);
-			pos = strli( cmdLine);
-			cmdLen = strli( cmdLine);
-			printf( "\n%s %.*s\033" "7%s\033" "8", prompt, pos, cmdLine, &cmdLine[ pos]); fflush( stdout);
-		}
-		break;
-	case kDelFwd:
-		if( pos < cmdLen)
-		{
+    int cmdLen = strli( cmdLine);
+    if( utfBytesLeft == 0)
+    {// Not building a UTF string, these are the same
+        utfPos = pos;
+    }
+    switch( readCh)
+    {
+    case 0: // Timeeout.  Neeed a veresion of ScopedGetch that doesn't time out
+        break;
+    case kLeftArrow:
+        if( pos > 0)
+        {
+            int glyphLen = UTF8TotalGlyphLength( (uint8_t*) cmdLine, pos-1, cmdLen, &pos);
+            if( glyphLen > 2)
+                DisplayPrompt();    // Might be a double wide
+            else
+            {
+                printf( "\033[D"); fflush( stdout);
+            }
+        }
+        break;
+    case kRightArrow:
+        if( pos < cmdLen)
+        {
+            int glyphLen = UTF8TotalGlyphLength( (uint8_t*) cmdLine, pos, cmdLen, &pos);
+            pos += glyphLen;
+            if( glyphLen > 2)
+                DisplayPrompt();    // Might be a double wide
+            else
+            {
+                printf( "\033[C"); fflush( stdout);
+            }
+        }
+        break;
+    case kDownArrow:
+        if( arrowPos < cmdLineHistory.size())
+        {
+            ++arrowPos;
+            if( arrowPos == cmdLineHistory.size())
+                strncpy( cmdLine, temporaryLastLine.c_str(), len);
+            else
+                strncpy( cmdLine, cmdLineHistory[ arrowPos].c_str(), len);
+            cmdLen = strli( cmdLine);
+            pos = cmdLen;
+            printf( "\n%s %.*s\033" "7%s\033" "8", prompt, pos, cmdLine, &cmdLine[ pos]); fflush( stdout);
+        }
+        break;
+    case kUpArrow:
+        if( arrowPos > 0)
+        {// Can't do anythnig if already at the top
+            if( arrowPos == cmdLineHistory.size())
+            {// Save this out to come back to it on downarrow if we don't take any of the previous commands
+                temporaryLastLine = cmdLine;
+            }
+            --arrowPos;
+            strncpy( cmdLine, cmdLineHistory[ arrowPos].c_str(), len);
+            pos = strli( cmdLine);
+            cmdLen = strli( cmdLine);
+            printf( "\n%s %.*s\033" "7%s\033" "8", prompt, pos, cmdLine, &cmdLine[ pos]); fflush( stdout);
+        }
+        break;
+    case kDelFwd:
+        if( pos < cmdLen)
+        {
 			int glyphLen = UTF8TotalGlyphLength( (uint8_t*) cmdLine, pos, cmdLen, &pos);
 			memcpy( &cmdLine[ pos], &cmdLine[ pos+glyphLen], len - pos - glyphLen);
 			printf( "\033" "7\033[K%s\033" "8", &cmdLine[pos]); fflush( stdout);
@@ -1688,43 +1678,43 @@ char* EditableCommandLine::ProcessOneCharacter( int readCh)
 		{
 			int glyphLen = UTF8TotalGlyphLength( (uint8_t*) cmdLine, pos-1, cmdLen, &pos);
 			memcpy( &cmdLine[ pos], &cmdLine[ pos+glyphLen], len - pos - glyphLen);
-			if( glyphLen > 2)
-				DisplayPrompt();	// Might bee a double wide
-			else
-			{
-			   printf( "\033[D\033" "7\033[K%s\033" "8", &cmdLine[pos]); fflush( stdout);
-			}
-		}
-		break;
-	case 10:
-	case 13: // Allow tetminate on either.	Clients should expect blank lines if input uses crlf
-		printf( "\n"); fflush( stdout);
-		if( *cmdLine)
-		{// Something to do, remember this.	 (We don't remember blank lines, but do return them)
-			cmdLineHistory.push_back( cmdLine);
-			pos = 0;
-			arrowPos = cmdLineHistory.size();		// Reset to last command
-		}
-		return cmdLine;
-		break;
-	case 'R'-64:
-		printf( "\n");
-		DisplayPrompt();
-		break;
-	default:
-		memcpy( &cmdLine[ pos+1], &cmdLine[ pos], len - pos);
-		++cmdLen;	   // We cached string length earlier
-		cmdLine[ pos++] = (char) readCh;
-		if( utfBytesLeft)
-		{// Working off a UTF8 thing
-			--utfBytesLeft;
-		}
-		else if( UTF8ByteCount( readCh) != 1)
-		{// Starting a UTF8 thing
-			utfBytesLeft = UTF8ByteCount( readCh) - 1;
-		}
-		if( utfBytesLeft == 0)
-		{// Reached the end of this UTF8 multi-byte - or is just one byte
+            if( glyphLen > 2)
+                DisplayPrompt();    // Might bee a double wide
+            else
+            {
+               printf( "\033[D\033" "7\033[K%s\033" "8", &cmdLine[pos]); fflush( stdout);
+            }
+        }
+        break;
+    case 10:
+    case 13: // Allow tetminate on either.  Clients should expect blank lines if input uses crlf
+        printf( "\n"); fflush( stdout);
+        if( *cmdLine)
+        {// Something to do, remember this.  (We don't remember blank lines, but do return them)
+            cmdLineHistory.push_back( cmdLine);
+            pos = 0;
+            arrowPos = cmdLineHistory.size();           // Reset to last command
+        }
+        return cmdLine;
+        break;
+    case 'R'-64:
+        printf( "\n");
+        DisplayPrompt();
+        break;
+    default:
+        memcpy( &cmdLine[ pos+1], &cmdLine[ pos], len - pos);
+        ++cmdLen;      // We cached string length earlier
+        cmdLine[ pos++] = (char) readCh;
+        if( utfBytesLeft)
+        {// Working off a UTF8 thing
+            --utfBytesLeft;
+        }
+        else if( UTF8ByteCount( readCh) != 1)
+        {// Starting a UTF8 thing
+            utfBytesLeft = UTF8ByteCount( readCh) - 1;
+        }
+        if( utfBytesLeft == 0)
+        {// Reached the end of this UTF8 multi-byte - or is just one byte
 			if( Utf8IsEvilVariationSelector( &cmdLine[ utfPos]))
 			{// MacOS terminal can't display skin tone modifiers correctly, skip them
 				memcpy( &cmdLine[ utfPos], &cmdLine[ pos], len - pos);
@@ -1744,19 +1734,15 @@ char* EditableCommandLine::ProcessOneCharacter( int readCh)
 				printf( "%s", &cmdLine[ utfPos]);
 				fflush( stdout);
 			}
-			else if( UTF8ByteCount( cmdLine[ utfPos]) > 2)
-			{// Not sure of character width, do entire prompt
-				DisplayPrompt();
-			}
-			else
-			{// Character width is one, display it and back up a letter
-				printf( "\033" "7%s\033" "8\033[C", &cmdLine[ utfPos]);
-				fflush( stdout);
-			}
-		}
-		break;
-	}
-	return nullptr;
+            else
+            {// Character width is one, display it and back up a letter
+                printf( "\033" "7%s\033" "8\033[C", &cmdLine[ utfPos]);
+                fflush( stdout);
+            }
+        }
+        break;
+    }
+    return nullptr;
 }
 
 std::vector<std::string> EditableCommandLine::cmdLineHistory;

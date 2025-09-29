@@ -394,14 +394,14 @@ bool TinyXml::IterateOverCcontent( void* context, ContentHandler_t handler, cons
 #if 1
 bool batoi( char *s, int *result)
 {// A version of atoi that returns if it was successful or not
-	char* done;
-	errno = 0;
-	s = SkipWhitespace( s);
-	int64 checkval = strtoll( s, &done, 10);
-	if( (done == s) || (checkval > INT_MAX) || (checkval < INT_MIN) || (errno != 0))
-		return false;
-	*result = (int) checkval;
-	return true;
+    char* done;
+    errno = 0;
+    s = SkipWhitespace( s);
+    int64 checkval = strtoll( s, &done, 10);
+    if( (done == s) || (checkval > INT_MAX) || (checkval < INT_MIN) || (errno != 0))
+        return false;
+    *result = (int) checkval;
+    return true;
 }
 
 bool batoll( char *s, int64 *result)

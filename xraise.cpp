@@ -39,10 +39,10 @@ char toupper_c( char ch)
 	return (char) toupper( ch);
 }
 
-void EndianSwap( void* thing, int size)
+void EndianSwap( void* thing, size_t size)
 {// Variable sized endian swapper for any data type
 	char* t = (char*) thing;
-	for( int i = 0; i < size/2; ++i )
+	for( size_t i = 0; i < size/2; ++i )
 	{
 		char temp = t[ i];
 		t[ i] = t[ size-i-1];
@@ -65,14 +65,13 @@ const char* ctim( time_t tv)
 	char* retval = sTimeBuffer[sTimeBufPos];
 	ctime_s(sTimeBuffer[sTimeBufPos++], 26, &tv);
 #else
-	char* retval = ctime_r( &tv, sTimeBuffer[sTimeBufPos++]);
+    char* retval = ctime_r( &tv, sTimeBuffer[sTimeBufPos++]);
 #endif
-	Test( retval);
-	retval[ strlen( retval)-1]=0;
-	sTimeBufPos &= 3;
-	return retval;
+    Test( retval);
+    retval[ strlen( retval)-1]=0;
+    sTimeBufPos &= 3;
+    return retval;
 }
-
 
 //		Actual exeption related stuff
 
@@ -163,7 +162,7 @@ bool operator==( const std::exception& e, const char* s)
 }
 
 /*********************************************************************************
- *	DisplayException - Prints out the string value of an xcode complete with a ¥.
+ *	DisplayException - Prints out the string value of an xcode complete with a Â¥.
  */
 void DisplayException( const std::exception &err)
 {

@@ -155,11 +155,11 @@ static int encode_utf8(codepoint_t codepoint, utf8_t* utf8, int len, int index)
 	if (index + size > len)
 		return 0;
 
-	// Write the continuation bytes in reverse order first
-	for (int cont_index = size - 1; cont_index > 0; cont_index--)
-	{
-		utf8_t cont = (utf8_t)(codepoint & ~UTF8_CONTINUATION_MASK);
-		cont |= UTF8_CONTINUATION_VALUE;
+    // Write the continuation bytes in reverse order first
+    for (int cont_index = size - 1; cont_index > 0; cont_index--)
+    {
+        utf8_t cont = (utf8_t)(codepoint & ~UTF8_CONTINUATION_MASK);
+        cont |= UTF8_CONTINUATION_VALUE;
 
 		utf8[index + cont_index] = cont;
 		codepoint >>= UTF8_CONTINUATION_CODEPOINT_BITS;
@@ -168,8 +168,8 @@ static int encode_utf8(codepoint_t codepoint, utf8_t* utf8, int len, int index)
 	// Write the leading byte
 	utf8_pattern pattern = utf8_leading_bytes[size - 1];
 
-	utf8_t lead = (utf8_t)(codepoint & ~(pattern.mask));
-	lead |= pattern.value;
+    utf8_t lead = (utf8_t)(codepoint & ~(pattern.mask));
+    lead |= pattern.value;
 
 	utf8[index] = lead;
 
@@ -294,11 +294,11 @@ static int encode_utf16(codepoint_t codepoint, utf16_t* utf16, int len, int inde
 	if (index >= len)
 		return 0;
 
-	if (codepoint <= BMP_END)
-	{
-		utf16[index] = (utf16_t) codepoint;
-		return 1;
-	}
+    if (codepoint <= BMP_END)
+    {
+        utf16[index] = (utf16_t) codepoint;
+        return 1;
+    }
 
 	// Not enough space on the string for two surrogates
 	if (index + 1 >= len)

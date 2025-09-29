@@ -222,15 +222,15 @@ void DoHelp(
 
 class EditableCommandLine
 {
-	char cmdLine[ 512] = {0};	 // Command line read asynchrounously
-	static std::vector<std::string> cmdLineHistory;
-	std::string temporaryLastLine;
-	size_t arrowPos = cmdLineHistory.size();           // Position in cmdLineHistory for uparrow/downarrow
-	int pos = 0;			// Byte position to insert in cmdLine
-	int utfBytesLeft = 0;	// Working out a UTF8 multibyte
-	int utfPos = 0;			// Position of first byte of UTF8  multibyte
-	int len = CountItems( cmdLine) - 1;	 // Always leave the trailing nul
-	const char* prompt = ">";
+    char cmdLine[ 512] = {0};    // Command line read asynchrounously
+    static std::vector<std::string> cmdLineHistory;
+    std::string temporaryLastLine;
+    size_t arrowPos = (int) cmdLineHistory.size();           // Position in cmdLineHistory for uparrow/downarrow
+    int pos = 0;            // Byte position to insert in cmdLine
+    int utfBytesLeft = 0;   // Working out a UTF8 multibyte
+    int utfPos = 0;         // Position of first byte of UTF8  multibyte
+    int len = CountItems( cmdLine) - 1;  // Always leave the trailing nul
+    const char* prompt = ">";
 
 public:
 	EditableCommandLine( const char* promptp);

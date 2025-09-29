@@ -438,33 +438,33 @@ int TestCmd( CommandProc* cur)
 		"Echo back character codes in UTF8 and UTF32."
 	};
 
-	GetAllOpts( // No options
-		cur->iArgc, cur->iArgv,
-		nullptr, nullptr,
-		nullptr, nullptr,
-		nullptr, nullptr,
-		nullptr, nullptr,
-		nullptr, nullptr,
-		"", helps);
+	GetAllOpts(	// No options
+        cur->iArgc, cur->iArgv,
+        nullptr, nullptr,
+        nullptr, nullptr,
+        nullptr, nullptr,
+        nullptr, nullptr,
+        nullptr, nullptr,
+        "", helps);
 
-	printf("wchar_t size is %zu\n", sizeof (wchar_t));
-	for (;;)
-	{
-		char buf[ 512];
-		uint32_t wbuf[ 512];
-		ConsoleGetLine( "X to exit>", buf, 512);
-		printf( "%s\n", buf);
-		for( int c = 0; c < strli( buf); ++c) printf( "0x%x ", (unsigned char)buf[c]);
-		printf( "\n");
-		decode_utf8_to_utf32( wbuf, (unsigned char*)buf);
-		for( int c = 0; wbuf[c]!=0; ++c)
-		{
-			printf( "U-%x ", (unsigned int)wbuf[c]);
-		}
-		printf( "\n");
-		if( buf[ 0] == 'X')
-			break;
-	}
+	printf( "wchar_t size is %d\n", (int) sizeof( wchar_t));
+    for(;;)
+    {
+        char buf[ 512];
+        uint32_t wbuf[ 512];
+        ConsoleGetLine( "X to exit>", buf, 512);
+        printf( "%s\n", buf);
+        for( int c = 0; c < strli( buf); ++c) printf( "0x%x ", (int)(unsigned char) buf[ c]);
+        printf( "\n");
+        decode_utf8_to_utf32( wbuf, (unsigned char*) buf);
+        for( int c = 0; wbuf[c]!=0; ++c)
+        {
+            printf( "U-%x ", (unsigned int) wbuf[c]);
+        }
+        printf( "\n");
+        if( buf[ 0] == 'X')
+            break;
+    }
 	//If we came from the command line, we exit now by returning 2
 	// Should do this with a lot more commands.
 	return cur->iFromCommandLine ? 2 : 0;
@@ -635,40 +635,40 @@ public:
 	virtual void DisplayPrompt() override
 	{
 		EditableCommandLine::DisplayPrompt();
-	}
-	
-	void Execute() override
-	{// Process most recent charactere if there is one, and queue up reading the next
+    }
+    
+    void Execute() override
+    {// Process most recent charactere if there is one, and queue up reading the next
 		char* commandLine = ProcessOneCharacter( readCh);
 		if( commandLine)
 		{
 			delete gch;			// Run command line in normal mode
 			gch = nullptr;
-			try
-			{
-				char* av[64];
-				int ac = 0;
-				if( *commandLine)
-				{// Something to do
-					SplitCommandLine( commandLine, &ac, av, CountItems( av));
-					if( ac != 0)
-					{
-						CommandProc cur( ac, av);
-						result = Dispatch( &cur, cmds, rtns);
-					}
-				}
-			}
-			catch( std::exception& err)
-			{
-				DisplayException( err);
-			}
-			catch( ...)
-			{
-				printf( "Don't know why it failed\n");
-			}
-			*commandLine = 0;
-			if( result == 2)
-			{// Exiting, mark it so
+		    try
+            {
+                char* av[64];
+                int ac = 0;
+                if( *commandLine)
+                {// Something to do
+                    SplitCommandLine( commandLine, &ac, av, CountItems( av));
+                    if( ac != 0)
+                    {
+                        CommandProc cur( ac, av);
+                        result = Dispatch( &cur, cmds, rtns);
+                    }
+                }
+            }
+            catch( std::exception& err)
+            {
+                DisplayException( err);
+            }
+            catch( ...)
+            {
+                printf( "Don't know why it failed\n");
+            }
+            *commandLine = 0;
+            if( result == 2)
+            {// Exiting, mark it so
 				exiting = true;
 		   }
 			else
